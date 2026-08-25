@@ -1,4 +1,8 @@
-# IIOAC — Fugitive Source (web)
+# IIOAC: Fugitive Source (web)
+
+<!-- Replace ZENODO_ID with the concept DOI Zenodo mints on your first release. -->
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.ZENODO_ID.svg)](https://doi.org/10.5281/zenodo.ZENODO_ID)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 A browser version of the fugitive-source path of EPA's Indoor and Outdoor Air
 Calculator (IIOAC 1.0). No Excel, no macros.
@@ -78,3 +82,14 @@ the workbook:
 
 Caps are applied per scenario before scenarios are summed, matching the 2018 change
 noted in the workbook's VBA.
+
+## Citing
+
+If this tool informs published or submitted work, please cite the archived release
+rather than the live site, so the exact version that produced your numbers stays
+resolvable. Zenodo mints a DOI for every tagged release; GitHub renders a formatted
+citation from `CITATION.cff` under "Cite this repository".
+
+## License
+
+MIT. See [LICENSE](LICENSE). Not affiliated with or endorsed by the U.S. EPA.

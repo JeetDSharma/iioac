@@ -1,0 +1,30 @@
+cff-version: 1.2.0
+title: "IIOAC Fugitive Source: a browser port of EPA's Indoor and Outdoor Air Calculator"
+message: "If you use this software, please cite it using the metadata from this file."
+type: software
+authors:
+  - family-names: Sharma
+    given-names: Jeet
+repository-code: "https://github.com/JeetDSharma/iioac"
+abstract: >-
+  A browser implementation of the fugitive-source path of the U.S. EPA Indoor
+  and Outdoor Air Calculator (IIOAC 1.0), replacing the macro-enabled Excel
+  workbook with a self-contained web page. Given source parameters and emission
+  scenarios it reports outdoor and indoor air concentrations, wet, dry and total
+  deposition, and acute, chronic and lifetime inhalation doses for seven
+  receptor age groups at fenceline, outer-boundary and community locations.
+  All calculation runs client-side. Results are validated against an independent
+  oracle that parses the original workbook's formulas and AERMOD run files,
+  agreeing to within 5.7e-08 relative error, the float32 storage limit of the
+  archived dispersion data. Not affiliated with or endorsed by the U.S. EPA.
+keywords:
+  - air quality
+  - dispersion modeling
+  - AERMOD
+  - exposure assessment
+  - risk assessment
+  - inhalation dose
+  - EPA
+license: MIT
+version: 1.0.0
+date-released: "2026-08-25"

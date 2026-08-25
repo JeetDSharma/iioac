@@ -127,3 +127,4 @@ footer .built { margin: 0; font-size: 13px; color: var(--ink); }
 footer a { color: var(--accent); text-decoration: none; }
 footer a:hover { text-decoration: underline; }
 footer .colophon { margin: 8px 0 0; font-size: 12px; color: var(--muted); max-width: 78ch; }
+footer .reachout { margin: 6px 0 0; font-size: 13px; color: var(--muted); }
