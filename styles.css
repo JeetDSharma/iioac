@@ -112,3 +112,18 @@ button:disabled { opacity: 0.5; cursor: default; }
 .muted-block .grid { opacity: 0.72; }
 .runhead h2 { margin: 0; }
 .runhead #runTitle { font-weight: 400; color: var(--muted); }
+
+.privacy { background: #eef3f8; border-bottom: 1px solid #dde5ee; }
+.privacy p {
+  margin: 0;
+  padding: 11px 0;
+  font-size: 12.5px;
+  color: #4a5568;
+  max-width: 86ch;
+}
+
+footer { border-top: 1px solid var(--line); background: #fff; padding: 22px 0 34px; }
+footer .built { margin: 0; font-size: 13px; color: var(--ink); }
+footer a { color: var(--accent); text-decoration: none; }
+footer a:hover { text-decoration: underline; }
+footer .colophon { margin: 8px 0 0; font-size: 12px; color: var(--muted); max-width: 78ch; }
