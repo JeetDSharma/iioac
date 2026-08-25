@@ -6,6 +6,8 @@ authors:
   - family-names: Sharma
     given-names: Jeet
 repository-code: "https://github.com/JeetDSharma/iioac"
+url: "https://iioac.vercel.app/"
+doi: 10.5281/zenodo.22101723
 abstract: >-
   A browser implementation of the fugitive-source path of the U.S. EPA Indoor
   and Outdoor Air Calculator (IIOAC 1.0), replacing the macro-enabled Excel

@@ -1,7 +1,6 @@
 # IIOAC: Fugitive Source (web)
 
-<!-- Replace ZENODO_ID with the concept DOI Zenodo mints on your first release. -->
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.ZENODO_ID.svg)](https://doi.org/10.5281/zenodo.ZENODO_ID)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22101723.svg)](https://doi.org/10.5281/zenodo.22101723)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 A browser version of the fugitive-source path of EPA's Indoor and Outdoor Air
@@ -87,8 +86,14 @@ noted in the workbook's VBA.
 
 If this tool informs published or submitted work, please cite the archived release
 rather than the live site, so the exact version that produced your numbers stays
-resolvable. Zenodo mints a DOI for every tagged release; GitHub renders a formatted
-citation from `CITATION.cff` under "Cite this repository".
+resolvable.
+
+- Cite a specific version, which is what a reviewer needs to reproduce your numbers:
+  v1.0.0 is [10.5281/zenodo.22101724](https://doi.org/10.5281/zenodo.22101724)
+- Cite the project as a whole, always resolving to the newest release:
+  [10.5281/zenodo.22101723](https://doi.org/10.5281/zenodo.22101723)
+
+GitHub renders a formatted citation from `CITATION.cff` under "Cite this repository".
 
 ## License
 
