@@ -117,13 +117,13 @@ function render(result) {
   const sf = result.scalingFactors;
   const caps = result.caps;
   const notes = [
-    `Area scaling factors (area / 100 m²)^b — fenceline ${sf.inner.toFixed(4)}, ` +
+    `Area scaling factors (area / 100 m²)^b: fenceline ${sf.inner.toFixed(4)}, ` +
     `outer-boundary ${sf.outer.toFixed(4)}, community ${sf.community.toFixed(4)}, anywhere ${sf.all.toFixed(4)}.`,
     caps.dailyAir != null
       ? `Air concentrations are capped at the PM NAAQS (${caps.dailyAir} µg/m³) per scenario before summing, as in the workbook.`
       : 'Vapor has no air concentration cap in the workbook, so no cap is applied.',
     'Following the workbook, the area scaling factor is applied only to blocks that carry a cap. ' +
-    'Deposition (and all vapor results) are therefore reported unscaled — this mirrors IIOAC 1.0 exactly.',
+    'Deposition (and all vapor results) are therefore reported unscaled. This mirrors IIOAC 1.0 exactly.',
     'Indoor air uses the workbook ratios: 1.0 for High-End (lookups!B58) and 0.65 for Mean ' +
     '(lookups!B57).',
     $('showAll').checked
@@ -133,7 +133,7 @@ function render(result) {
       : 'Showing the six rows the IIOAC output sheet reports. Tick the box above for the Low-End ' +
         'and Anywhere rows the calculation sheet computes but never reports.',
     `Doses combine indoor and outdoor air weighted by each receptor's activity pattern.`,
-    'Chemical properties do not enter the fugitive calculation — IIOAC greys them out for this ' +
+    'Chemical properties do not enter the fugitive calculation. IIOAC greys them out for this ' +
     'source type. Only the chemical name and CAS number identify the run.',
   ];
   $('notes').innerHTML = notes.map(n => `<li>${n}</li>`).join('');

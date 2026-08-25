@@ -1,4 +1,4 @@
-// IIOAC fugitive source engine — a direct port of the workbook's
+// IIOAC fugitive source engine, a direct port of the workbook's
 // "Fugitive Calculations" / "Fugitive Output Prelim" chain.
 
 // Column offsets into a run file's 60 columns. Each group holds four columns,

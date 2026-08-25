@@ -7,7 +7,7 @@ export function fmt(v) {
   const mag = Math.abs(v);
   if (mag >= 1e-3 && mag < 1e5) {
     const s = v.toPrecision(4);
-    // Only trim zeros that sit after a decimal point — never digits of an integer.
+    // Only trim zeros that sit after a decimal point, never digits of an integer.
     return s.includes('.') ? s.replace(/0+$/, '').replace(/\.$/, '') : s;
   }
   return v.toExponential(3);
