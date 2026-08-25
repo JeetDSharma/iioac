@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>IIOAC — Fugitive Source</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <h1>Indoor &amp; Outdoor Air Calculator</h1>
+    <p class="sub">Fugitive source · web port of EPA IIOAC 1.0</p>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="card">
+    <h2><span class="step">1</span> Chemical information</h2>
+    <div class="grid">
+      <label>Chemical name
+        <input id="chemName" type="text" placeholder="e.g. Toluene">
+      </label>
+      <label>CAS number
+        <input id="chemCas" type="text" placeholder="e.g. 108-88-3">
+      </label>
+    </div>
+    <details class="muted-block">
+      <summary>Chemical properties <span class="tag">not used for fugitive sources</span></summary>
+      <p class="hint">IIOAC greys these out for point and fugitive sources — no fugitive formula
+        reads them. They are kept here because the workbook carries the Chemical sheet into every
+        exported result, and Area Soil / Area Water do use them.</p>
+      <div class="grid">
+        <label>Vapor pressure (Torr)<input id="chemVp" type="number" step="any"></label>
+        <label>Solubility (mg/L)<input id="chemSol" type="number" step="any"></label>
+        <label>Org. carbon sorption coeff. K<sub>oc</sub> (mL/g)<input id="chemKoc" type="number" step="any"></label>
+        <label>Volatilization half-life (hrs)<input id="chemHalfLife" type="number" step="any"></label>
+        <label>Molecular weight (g/mol)<input id="chemMw" type="number" step="any"></label>
+      </div>
+    </details>
+  </section>
+
+  <section class="card">
+    <h2><span class="step">2</span> Source parameters</h2>
+    <div class="grid">
+      <label>Area of source (m²)
+        <input id="area" type="number" min="1" step="any" value="10000">
+      </label>
+      <label>Release height (m)
+        <input id="height" type="text" value="3.05" disabled>
+      </label>
+      <label>Urban or rural
+        <select id="locale"><option>Urban</option><option>Rural</option></select>
+      </label>
+      <label>Population
+        <input id="population" type="text" disabled>
+      </label>
+      <label>Particle size
+        <select id="particle"></select>
+      </label>
+      <label>Mean aerodynamic diameter (µm)
+        <input id="diameter" type="text" disabled>
+      </label>
+      <label>Density (g/cm³)
+        <input id="density" type="text" disabled>
+      </label>
+      <label>Climate region
+        <select id="region"></select>
+      </label>
+      <label>Surface station
+        <input id="surface" type="text" disabled>
+      </label>
+      <label>Upper-air station
+        <input id="upperair" type="text" disabled>
+      </label>
+      <label>Release pattern
+        <select id="emissionType">
+          <option>Consecutive</option>
+          <option>Cyclical</option>
+        </select>
+      </label>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2><span class="step">3</span> Emission scenarios</h2>
+    <table class="scenarios">
+      <thead>
+        <tr>
+          <th>Scenario name</th>
+          <th>Release amount<span>kg/site/day</span></th>
+          <th>Release duration<span>hours/day</span></th>
+          <th>Release frequency<span>days/year</span></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="scenarioRows"></tbody>
+    </table>
+    <button id="addScenario" class="ghost">+ Add scenario</button>
+  </section>
+
+  <section class="card">
+    <div class="runbar">
+      <button id="run" class="primary">Calculate</button>
+      <label class="inline"><input type="checkbox" id="showAll"> Show Low-End and Anywhere rows</label>
+      <button id="exportCsv" class="ghost" disabled>Export CSV</button>
+      <span id="status" class="status"></span>
+    </div>
+  </section>
+
+  <section id="results" hidden>
+    <div class="card runhead"><h2>Results for <span id="runTitle"></span></h2></div>
+    <div class="card">
+      <h2>Air concentration &amp; deposition</h2>
+      <div class="scroll"><table id="concTable"></table></div>
+    </div>
+    <div class="card">
+      <h2>Acute dose <span class="unit">mg/kg/day · daily</span></h2>
+      <div class="scroll"><table id="acuteTable"></table></div>
+    </div>
+    <div class="card">
+      <h2>Chronic dose <span class="unit">mg/kg/day · annual</span></h2>
+      <div class="scroll"><table id="chronicTable"></table></div>
+    </div>
+    <div class="card notes">
+      <h2>Run notes</h2>
+      <ul id="notes"></ul>
+    </div>
+  </section>
+</main>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>
