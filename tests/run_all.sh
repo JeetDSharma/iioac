@@ -3,8 +3,22 @@
 cd "$(dirname "$0")" || exit 1
 status=0
 
+# openpyxl is chatty about the workbook's VBA and styles, so stderr is hidden on
+# success. On failure it is printed: a suite that dies silently is unreadable in
+# CI, which is exactly where nobody can rerun it by hand.
+run_py() {
+  err=$(mktemp)
+  if python3 "$1" 2>"$err"; then
+    :
+  else
+    status=1
+    [ -s "$err" ] && sed 's/^/  /' "$err"
+  fi
+  rm -f "$err"
+}
+
 echo "=== model fingerprint (28 sheets) ================================="
-python3 fingerprint.py || status=1
+run_py fingerprint.py
 
 echo
 echo "=== unit tests (JS) ==============================================="
@@ -12,12 +26,12 @@ node test_units.mjs || status=1
 
 echo
 echo "=== engine vs workbook oracle ====================================="
-python3 test_engine.py 2>/dev/null || status=1
+run_py test_engine.py
 
 if [ "$1" != "--fast" ]; then
   echo
   echo "=== data integrity (672 run files) ================================"
-  python3 test_data.py 2>/dev/null || status=1
+  run_py test_data.py
 fi
 
 echo

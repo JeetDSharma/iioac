@@ -15,16 +15,8 @@ jobs:
   fidelity:
     runs-on: ubuntu-latest
     steps:
+      # Full checkout: the fidelity suites read data/pf/*.bin.
       - uses: actions/checkout@v4
-        with:
-          # data/pf is 226 MB and the fidelity suite does not read it; it reads
-          # the original EPA .xlsx instead. lookups.json is needed, so this is a
-          # non-cone pattern list rather than a cone include.
-          sparse-checkout: |
-            /*
-            !/data/pf/
-            !/data/area/
-          sparse-checkout-cone-mode: false
 
       - uses: actions/setup-node@v4
         with:
