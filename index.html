@@ -17,8 +17,10 @@
 <div class="privacy">
   <div class="wrap">
     <p>Everything runs in your browser. Chemical names, release rates, and results stay on
-      this device. Nothing is uploaded, logged, or stored on a server. The page only
-      downloads EPA's dispersion tables; closing the tab discards your inputs.</p>
+      this device. None of it is uploaded, logged, or stored on a server. The page only
+      downloads EPA's dispersion tables and reports anonymous page views (URL, referrer,
+      country, device type &mdash; never your inputs) to Vercel; closing the tab discards
+      your inputs.</p>
   </div>
 </div>
 
@@ -154,6 +156,7 @@
   </div>
 </footer>
 
+<script defer src="/_vercel/insights/script.js"></script>
 <script type="module" src="app.js"></script>
 </body>
 </html>
