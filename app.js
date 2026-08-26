@@ -61,6 +61,7 @@ function readScenarios() {
       name: tr.querySelector('.s-name').value.trim() || 'Scenario',
       amount: Number(tr.querySelector('.s-amount').value),
       hours: Number(sel.selectedOptions[0].dataset.hours),
+      durationLabel: sel.selectedOptions[0].textContent.trim(),
       durationCol: Number(sel.value),
       frequency,
     };
@@ -142,13 +143,48 @@ function render(result) {
 
 function toCsv(result) {
   const chem = result.chemical;
-  const preamble = [
+  const r = result.run;
+  const src = r.source;
+
+  // A results file that cannot say what produced it cannot be checked against
+  // the workbook, so the export leads with the run rather than the numbers.
+  const rows = [
+    ['Run'],
+    ['Exported', r.exported],
+    ['Tool', `IIOAC fugitive source (web port) ${r.version}`],
+    ['Build', r.build],
+    ['Cite', CITE],
+    ['EPA model', r.epaModel ? `IIOAC ${r.epaModel}` : 'IIOAC 1.0'],
+    ['Dispersion run file', r.file],
+    [],
+    ['Chemical'],
     ['Chemical name', chem.name], ['CAS number', chem.cas],
     ['Vapor pressure (Torr)', chem.vaporPressure], ['Solubility (mg/L)', chem.solubility],
     ['Org. carbon sorption coeff. Koc (mL/g)', chem.koc],
     ['Volatilization half-life (hrs)', chem.halfLife],
     ['Molecular weight (g/mol)', chem.molecularWeight],
-    [], ];
+    ['', 'Collected and exported, but no fugitive formula reads them.'],
+    [],
+    ['Source parameters'],
+    ['Area of source (m2)', src.area],
+    ['Release height (m)', src.height],
+    ['Urban or rural', src.locale],
+    ['Population', src.population],
+    ['Particle size', src.particle],
+    ['Mean aerodynamic diameter (um)', src.diameter],
+    ['Density (g/cm3)', src.density],
+    ['Climate region', src.region],
+    ['Surface station', src.surface],
+    ['Upper-air station', src.upperair],
+    ['Release pattern', src.emissionType],
+    [],
+    ['Emission scenarios'],
+    ['Scenario name', 'Release amount (kg/site/day)', 'Release duration', 'Release frequency (days/year)'],
+    ...r.scenarios.map(s => [s.name, s.amount, s.durationLabel, s.frequency]),
+    [],
+    ['Results'],
+  ];
+
   const head = ['Statistic', 'Location', 'Outdoor air daily (ug/m3)', 'Outdoor air annual (ug/m3)',
     'Indoor air daily (ug/m3)', 'Indoor air annual (ug/m3)', 'Total deposition (g/m2)',
     'Wet deposition (g/m2)', 'Dry deposition (g/m2)',
@@ -158,7 +194,7 @@ function toCsv(result) {
   const lines = result.rows.map(r => [r.stat, r.location, r.outdoorDaily, r.outdoorAnnual,
     r.indoorDaily, r.indoorAnnual, r.totalDep, r.wetDep, r.dryDep, ...r.acute, ...r.chronic, r.lifetime,
     r.inWorkbookOutput ? 'yes' : 'no']);
-  return [...preamble, head, ...lines].map(row => row.map(csvCell).join(',')).join('\n');
+  return [...rows, head, ...lines].map(row => row.map(csvCell).join(',')).join('\n');
 }
 
 async function run() {
@@ -195,6 +231,27 @@ async function run() {
       rateConstant: L.emissionRateConstant,
     });
     lastResult.chemical = readChemical();
+    lastResult.run = {
+      exported: new Date().toISOString(),
+      version: document.querySelector('meta[name="iioac-version"]')?.content || 'unknown',
+      build: $('build').textContent,
+      epaModel,
+      file,
+      scenarios,
+      source: {
+        area: Number($('area').value),
+        height: $('height').value,
+        locale: $('locale').value,
+        population: $('population').value,
+        particle: particleLabel,
+        diameter: $('diameter').value,
+        density: $('density').value,
+        region: $('region').value,
+        surface: $('surface').value,
+        upperair: $('upperair').value,
+        emissionType: $('emissionType').value,
+      },
+    };
     render(lastResult);
     $('exportCsv').disabled = false;
     status.textContent = `${scenarios.length} scenario${scenarios.length > 1 ? 's' : ''} · ${file}`;
@@ -205,6 +262,8 @@ async function run() {
 }
 
 const RUNS = 'https://github.com/JeetDSharma/iioac/actions/workflows/watch-epa.yml';
+const CITE = 'https://doi.org/10.5281/zenodo.22101724';
+let epaModel = null;   // filled from data/epa-version.json, for the CSV preamble
 
 function longDate(iso) {
   const [y, m, d] = iso.split('-').map(Number);
@@ -218,6 +277,7 @@ async function showEpaStatus() {
     const res = await fetch('data/epa-version.json');
     if (!res.ok) return;
     const v = await res.json();
+    epaModel = v.portedEpaVersion;
 
     if (v.upstreamChanged) {
       const on = v.upstreamChangedOn ? ` on ${longDate(v.upstreamChangedOn)}` : '';
@@ -263,7 +323,11 @@ async function showEpaStatus() {
     const blob = new Blob([toCsv(lastResult)], { type: 'text/csv' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
-    a.download = 'iioac-fugitive-results.csv';
+    // Named per run: a reviewer comparing several exports should not have to
+    // rename files to tell them apart.
+    const slug = (lastResult.chemical.name || 'run').toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'run';
+    a.download = `iioac-fugitive-${slug}-${lastResult.run.exported.slice(0, 10)}.csv`;
     a.click();
     URL.revokeObjectURL(a.href);
   });
