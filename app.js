@@ -262,7 +262,9 @@ async function run() {
 }
 
 const RUNS = 'https://github.com/JeetDSharma/iioac/actions/workflows/watch-epa.yml';
-const CITE = 'https://doi.org/10.5281/zenodo.22101724';
+// Concept DOI: always resolves to the newest release. Zenodo also mints one per
+// version, and its landing page lists them.
+const CITE = 'https://doi.org/10.5281/zenodo.22101723';
 let epaModel = null;   // filled from data/epa-version.json, for the CSV preamble
 
 function longDate(iso) {

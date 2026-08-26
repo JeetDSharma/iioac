@@ -128,8 +128,9 @@ If this tool informs published or submitted work, please cite the archived relea
 rather than the live site, so the exact version that produced your numbers stays
 resolvable.
 
-- Cite a specific version, which is what a reviewer needs to reproduce your numbers:
-  v1.0.0 is [10.5281/zenodo.22101724](https://doi.org/10.5281/zenodo.22101724)
+- Cite a specific version, which is what a reviewer needs to reproduce your numbers.
+  Zenodo mints a DOI per release; v1.0.0 is
+  [10.5281/zenodo.22101724](https://doi.org/10.5281/zenodo.22101724)
 - Cite the project as a whole, always resolving to the newest release:
   [10.5281/zenodo.22101723](https://doi.org/10.5281/zenodo.22101723)
 
