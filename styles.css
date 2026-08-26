@@ -113,6 +113,7 @@ button:disabled { opacity: 0.5; cursor: default; }
 .runhead h2 { margin: 0; }
 .runhead #runTitle { font-weight: 400; color: var(--muted); }
 
+.verify::before { content: "\2713"; color: #2f7d43; font-weight: 700; margin-right: .4rem; }
 .stale { background: #fdf3e3; border-bottom: 1px solid #e8d4ae; }
 .stale p { margin: 0 auto; padding: .75rem 0; font-size: .9rem; color: #6b4d16; max-width: 70ch; }
 .privacy { background: #eef3f8; border-bottom: 1px solid #dde5ee; }

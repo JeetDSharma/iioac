@@ -51,15 +51,23 @@ jobs:
           echo 'HEAD request failed. EPA may have moved or withdrawn the download.'
           exit 1
 
-      # Only commits when something actually changed, so the log does not fill
-      # with 52 no-op checks a year. The weekly evidence lives in the summary.
-      - name: Publish the staleness notice
-        if: steps.check.outputs.code == '2'
+      # Commits whenever the file actually moved: an upstream change, or the
+      # monthly refresh of the check date the page displays. Never on a plain
+      # weekly no-op, so the log does not fill with 52 empty checks a year.
+      - name: Publish the status
         run: |
+          if git diff --quiet data/epa-version.json; then
+            echo 'nothing to commit'
+            exit 0
+          fi
           git config user.name  'github-actions[bot]'
           git config user.email 'github-actions[bot]@users.noreply.github.com'
           git add data/epa-version.json
-          git commit -m 'EPA republished the IIOAC distribution' -m 'Recorded so the site discloses it may be stale. The checksum baseline is deliberately unchanged: it moves when the port has been re-validated, not when the upstream file moves.'
+          if [ '${{ steps.check.outputs.code }}' = '2' ]; then
+            git commit -m 'EPA republished the IIOAC distribution' -m 'Recorded so the site discloses it may be stale. The checksum baseline is deliberately unchanged: it moves when the port has been re-validated, not when the upstream file moves.'
+          else
+            git commit -m 'Refresh the EPA distribution check date'
+          fi
           git push
 
       - name: Open a tracking issue

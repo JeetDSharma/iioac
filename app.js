@@ -204,24 +204,43 @@ async function run() {
   }
 }
 
-async function showStaleNotice() {
+const RUNS = 'https://github.com/JeetDSharma/iioac/actions/workflows/watch-epa.yml';
+
+function longDate(iso) {
+  const [y, m, d] = iso.split('-').map(Number);
+  return new Date(Date.UTC(y, m - 1, d))
+    .toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' });
+}
+
+async function showEpaStatus() {
   // Disclosure only. A failure here must never stop the calculator working.
   try {
     const res = await fetch('data/epa-version.json');
     if (!res.ok) return;
     const v = await res.json();
-    if (!v.upstreamChanged) return;
-    const on = v.upstreamChangedOn ? ` on ${v.upstreamChangedOn}` : '';
-    const issue = v.issueUrl ? ` <a href="${v.issueUrl}">Tracking issue</a>.` : '';
-    $('staleDetail').innerHTML =
-      `The distribution changed${on}. This page implements EPA IIOAC ${v.portedEpaVersion}, ` +
-      `so its numbers may no longer match EPA's current model.${issue}`;
-    $('staleNotice').hidden = false;
+
+    if (v.upstreamChanged) {
+      const on = v.upstreamChangedOn ? ` on ${longDate(v.upstreamChangedOn)}` : '';
+      const issue = v.issueUrl ? ` <a href="${v.issueUrl}">Tracking issue</a>.` : '';
+      $('staleDetail').innerHTML =
+        `The distribution changed${on}. This page implements EPA IIOAC ${v.portedEpaVersion}, ` +
+        `so its numbers may no longer match EPA's current model.${issue}`;
+      $('staleNotice').hidden = false;
+      return;
+    }
+
+    // The date is refreshed monthly, not weekly, so it is worded as the last
+    // recorded check rather than implying one happened this week.
+    $('verifyLine').innerHTML =
+      `Matches EPA's published IIOAC ${v.portedEpaVersion} distribution as of ` +
+      `${longDate(v.lastChecked)}. A <a href="${RUNS}">weekly job</a> re-checks it; ` +
+      `if EPA republishes, a notice appears here.`;
+    $('verifyLine').hidden = false;
   } catch { /* offline, or served without the file */ }
 }
 
 (async function init() {
-  showStaleNotice();
+  showEpaStatus();
   try {
     const res = await fetch('data/lookups.json');
     if (!res.ok) throw new Error(`lookups.json returned ${res.status}`);

@@ -18,6 +18,12 @@ import os
 import sys
 import urllib.request
 
+# How stale the recorded check date may get before it is worth a commit. Weekly
+# commits would be 52 no-ops a year in the log and 52 redeploys; never writing at
+# all would leave the page claiming a check date that ages silently. Monthly is
+# the compromise: the date on the page is never more than about five weeks old.
+REFRESH_AFTER_DAYS = 28
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 STATE = os.path.join(HERE, '..', 'data', 'epa-version.json')
 
@@ -53,9 +59,15 @@ def main():
     if not fields:
         print(f'unchanged  etag={now["etag"]}  {now["contentLength"]} bytes')
         if write:
-            state['lastChecked'] = today
-            json.dump(state, open(STATE, 'w'), indent=2)
-            open(STATE, 'a').write('\n')
+            was = datetime.date.fromisoformat(state['lastChecked'])
+            age = (datetime.date.today() - was).days
+            if age >= REFRESH_AFTER_DAYS:
+                state['lastChecked'] = today
+                json.dump(state, open(STATE, 'w'), indent=2)
+                open(STATE, 'a').write('\n')
+                print(f'refreshed the check date ({age} days old)')
+            else:
+                print(f'check date is {age} days old, left alone')
         return 0
 
     print('EPA DISTRIBUTION CHANGED')
