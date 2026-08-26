@@ -10,7 +10,16 @@ import re
 
 import openpyxl
 
-WORKBOOK = os.path.expanduser('~/Documents/iioac/iioac_1.0.xlsm')
+HERE = os.path.dirname(os.path.abspath(__file__))
+
+# EPA's workbook, fetched and checksum-verified by fetch_fixtures.py. Point
+# IIOAC_WORKBOOK at your own copy to verify against a download you made yourself.
+WORKBOOK = os.environ.get('IIOAC_WORKBOOK') or os.path.join(HERE, 'fixtures', 'iioac_1.0.xlsm')
+if not os.path.exists(WORKBOOK):
+    raise SystemExit(
+        f'workbook not found: {WORKBOOK}\n'
+        'Run tests/fetch_fixtures.py, or set IIOAC_WORKBOOK to a copy of\n'
+        'IIOAC 1.0.xlsm. See tests/README.md.')
 
 # Row where each receptor band starts in 'Point+Fugitive Lookup'.
 BAND_START = {4: 'inner', 369: 'outer', 734: 'all', 1099: 'community'}

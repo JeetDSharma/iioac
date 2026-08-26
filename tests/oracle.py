@@ -12,9 +12,18 @@ import openpyxl
 
 import workbook as W
 
-RUNFILES = os.path.expanduser(
-    '/private/tmp/claude-501/-Users-jeetsharma-Documents-iioac/'
-    '7ad0ce66-8400-4b69-a8b1-369e7d4b6730/scratchpad/rf/IIOAC_RunFiles.zip')
+HERE = os.path.dirname(os.path.abspath(__file__))
+
+# AERMOD run files, fetched and checksum-verified by fetch_fixtures.py. The default
+# fixture holds only the 18 files the fidelity and sampling suites need (~10 MB).
+# Set IIOAC_RUNFILES to EPA's full IIOAC_RunFiles.zip to run the 672-file sweep in
+# test_data.py. See tests/README.md.
+RUNFILES = os.environ.get('IIOAC_RUNFILES') or os.path.join(HERE, 'fixtures', 'runfiles.zip')
+if not os.path.exists(RUNFILES):
+    raise SystemExit(
+        f'run files not found: {RUNFILES}\n'
+        'Run tests/fetch_fixtures.py, or set IIOAC_RUNFILES to a copy of\n'
+        'IIOAC_RunFiles.zip. See tests/README.md.')
 
 BAND_ORDER = ['inner', 'outer', 'all', 'community']
 

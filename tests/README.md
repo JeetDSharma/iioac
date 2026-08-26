@@ -3,6 +3,40 @@
     ./run_all.sh            # everything (~2.5 min)
     ./run_all.sh --fast     # skip the 672-file data sweep (~15 s)
 
+Fetch the EPA files first. They are not redistributed here: EPA's licence
+restricts redistribution of the workbook, and the run files are 331 MB.
+
+    python3 fetch_fixtures.py           # ~331 MB, cached after the first run
+    python3 fetch_fixtures.py --full    # also keep the full 672-file zip
+
+That downloads EPA's distribution, builds `fixtures/` from it, and checks every
+file against `fixtures.sha256`. A file that does not match EPA's own bytes is a
+hard error, so the headline result, the engine agreeing with an independent
+oracle to 5.7e-08, is reproducible against EPA's copy rather than against one
+this repository vouches for.
+
+The 672-file sweep in `test_data.py` needs the complete run files, which only
+`--full` keeps. Without them that suite skips and says so; the other two run.
+
+## Source files and how to point at them
+
+Both inputs are overridable, so you can run against copies you already have
+without fetching anything:
+
+| Variable | Default | Used by |
+|---|---|---|
+| `IIOAC_WORKBOOK` | `tests/fixtures/iioac_1.0.xlsm` | `workbook.py`, all fidelity assertions |
+| `IIOAC_RUNFILES` | `tests/fixtures/runfiles.zip` | `oracle.py`, and the full sweep |
+| `IIOAC_DIST` | `tests/fixtures/iioac_1.0.zip` | `fetch_fixtures.py`, skips the download |
+
+    # verify against your own copies
+    IIOAC_WORKBOOK=~/Documents/iioac/iioac_1.0.xlsm \
+    IIOAC_RUNFILES=~/Documents/iioac/IIOAC_RunFiles.zip ./run_all.sh
+
+Both files come from EPA's IIOAC distribution:
+<https://www.epa.gov/sites/default/files/2019-06/iioac_1.0.zip>, a single zip
+containing `IIOAC 1.0.xlsm` and `IIOAC_RunFiles.zip`.
+
 ## Suites
 
 **`test_units.mjs`** (45 assertions) — pure helpers and engine guards. Number and CSV
@@ -47,6 +81,15 @@ openpyxl reads the source `.xlsx` directly in `test_data.py`. Both suites fail a
 `data/lookups.json` is generated, not hand-written:
 
     python3 ../tools/build_lookups.py
+
+The `.bin` run files are generated too, by `../tools/convert.py`. It reads the same
+`IIOAC_RUNFILES` zip and writes to `../data`:
+
+    IIOAC_RUNFILES=~/Documents/iioac/IIOAC_RunFiles.zip python3 ../tools/convert.py
+
+`test_data.py` re-runs that conversion over all 672 files and asserts the result is
+byte-identical to what is committed, so the shipped data is reproducible from EPA's
+originals rather than being a one-off dump.
 
 `test_engine.py` asserts the generated file still matches the workbook exactly, which is
 how a hand-transcription defect in four scaling exponents was caught.

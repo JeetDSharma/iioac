@@ -5,17 +5,14 @@ import struct
 import sys
 import zipfile
 
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..'))
+HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, HERE)
+sys.path.insert(0, os.path.join(HERE, '..', 'tools'))
 
 import oracle
+import convert  # the reader that built the .bin files, tools/convert.py
 
-SCRATCH = ('/private/tmp/claude-501/-Users-jeetsharma-Documents-iioac/'
-           '7ad0ce66-8400-4b69-a8b1-369e7d4b6730/scratchpad')
-sys.path.insert(0, SCRATCH)
-import convert  # the fast reader used to build the .bin files
-
-DATA = os.path.expanduser('~/Documents/iioac/site/data')
+DATA = os.path.join(HERE, '..', 'data')
 EXPECTED_BYTES = 1460 * 60 * 4
 
 results = []
@@ -34,6 +31,15 @@ def bin_grid(path):
 # 1. Every run file in the zip has a .bin, every .bin is the right size, none are all-zero.
 with zipfile.ZipFile(oracle.RUNFILES) as z:
     names = [n for n in z.namelist() if n.startswith('results_')]
+
+# The default fixture carries only the 18 files the fidelity suite needs. The full
+# sweep is a data-conversion check and needs EPA's complete IIOAC_RunFiles.zip,
+# which tests/fetch_fixtures.py --full keeps.
+if len([n for n in names if n.endswith('.xlsx')]) < 672:
+    print('SKIP  test_data.py needs the full IIOAC_RunFiles.zip (672 run files); '
+          f'{oracle.RUNFILES} holds {len([n for n in names if n.endswith(".xlsx")])}.')
+    print('      Run fetch_fixtures.py --full, or set IIOAC_RUNFILES. See tests/README.md.')
+    sys.exit(0)
 xlsx_names = sorted(n for n in names if n.endswith('.xlsx'))
 csv_names = sorted(n for n in names if n.endswith('.csv'))
 

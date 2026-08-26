@@ -23,3 +23,7 @@ npm-debug.log*
 *.log
 tmp/
 .gstack/
+
+# EPA distribution files, fetched and checksum-verified by tests/fetch_fixtures.py.
+# Never commit these: EPA's licence restricts redistributing the workbook.
+tests/fixtures/
