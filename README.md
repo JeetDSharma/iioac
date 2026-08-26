@@ -82,6 +82,12 @@ the workbook:
 Caps are applied per scenario before scenarios are summed, matching the 2018 change
 noted in the workbook's VBA.
 
+## Roadmap
+
+Only the fugitive path is ported, though the AERMOD data for point and area sources is
+already converted. [ROADMAP.md](ROADMAP.md) covers what is left, and the plan for
+tracking EPA's own updates to IIOAC.
+
 ## Citing
 
 If this tool informs published or submitted work, please cite the archived release
