@@ -49,20 +49,26 @@ quickly and re-porting mechanically.
 
 ### Fingerprint the model, not just the results
 
-`tests/workbook.py` already recovers the model from the workbook's own formula text:
-the emission constant, the `INDEX` range maps, the indoor/outdoor ratio cells, the cap
-rows, the scaling exponents, the receptor table, the met station map. Have it write all
-of that to a committed `tests/model_fingerprint.json`, alongside a hash of the formula
-strings on each sheet the port depends on.
+Done. `tests/fingerprint.py` writes `tests/model_fingerprint.json`, and `run_all.sh`
+fails when the workbook no longer matches it.
 
-A new EPA release then regenerates the fingerprint and diffs it. The diff is an exact,
-reviewable list of what EPA changed. Without this, a new release means re-reading the
-workbook and hoping nothing was missed; with it, the question is answered by `git diff`.
+Two layers. The model layer is everything `tests/workbook.py` recovers from the
+workbook's own formula text — the emission constant, the `INDEX` range maps, the
+indoor/outdoor ratio cells, the cap rows, the scaling exponents, the receptor table —
+so a diff names the number that moved. The sheets layer hashes the formula strings on
+all 28 sheets, including the point and area paths that are not ported, so a change to
+`SoilCalc` is noticed years before there is an extractor to notice it with; `lookups`
+and `Chemical` are constants tables, so every cell is hashed there, not just formulas.
 
-This is the first thing to build, because everything else on this list is cheaper once
-it exists.
+A new EPA release regenerates the fingerprint with `--write` and prints the diff: an
+exact, reviewable list of what EPA changed, with `!` against the parts this port ships
+today.
 
 ### Notice the release
+
+Half built: `tools/check_epa.py` compares the `ETag`, `Last-Modified` and
+`Content-Length` of EPA's zip against the baseline in `data/epa-version.json` over a
+HEAD request. What is missing is the schedule and the issue.
 
 A weekly GitHub Action checks EPA's download page: `ETag`, `Last-Modified` and
 `Content-Length` on the zip, plus a hash of the version string on the landing page,
@@ -100,6 +106,28 @@ ready. EPA may withdraw 1.0 when its successor lands, and their licence makes mi
 the workbook awkward; the checksums are what let this port prove afterwards what it was
 built against.
 
+### What updates automatically, and what does not
+
+Vercel already deploys every push. The temptation is to extend that into
+converting and publishing a new EPA release automatically; the answer is no. The
+value of this port is that its numbers are validated against the workbook's own
+formulas, so a pipeline that absorbs a new model unattended would publish
+unvalidated numbers, quietly. Numbers ship behind a human reading a formula diff.
+
+What is automated instead is the *disclosure*. `.github/workflows/watch-epa.yml`
+runs a weekly HEAD request against EPA's download and, on any change, records it
+in `data/epa-version.json` and opens a tracking issue. The page reads that file
+and shows a banner saying it may be stale. Committing the file deploys itself, so
+the warning appears without anyone being at a keyboard.
+
+The checksum baseline in `data/epa-version.json` is deliberately not advanced by
+the watcher. It moves when a human has re-ported and re-validated, which keeps the
+banner up until the work is actually done rather than until the robot notices.
+
+`.github/workflows/validate.yml` runs the suites on every push and weekly. The
+weekly run is the one that matters: it catches the toolchain rotting under a port
+whose whole purpose is matching EPA's numbers.
+
 ### Storage
 
 `data/` is 226 MB and committed. A second EPA version doubles that, against GitHub's
@@ -108,8 +136,8 @@ assets and object storage should be made before a third version, not during one.
 
 ## Order of work
 
-1. Commit `tools/convert.py` and the distribution checksums.
-2. Model fingerprint, then the EPA release watcher.
+1. ~~Commit `tools/convert.py` and the distribution checksums.~~ Done.
+2. ~~Model fingerprint, then the EPA release watcher.~~ Done, with weekly CI validation.
 3. The one-command update path.
 4. Point source, including the aggregate sheets.
 5. `All Sources Output`, once there are two paths to aggregate.

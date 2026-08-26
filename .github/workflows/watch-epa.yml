@@ -1,0 +1,78 @@
+name: watch-epa
+
+# Weekly HEAD request against EPA's IIOAC download. Costs nothing, downloads
+# nothing. On a change it records staleness so the live site discloses it, and
+# opens an issue. It never converts data and never publishes a number: re-porting
+# is a human reading a formula diff. See ROADMAP.md.
+on:
+  schedule:
+    - cron: '41 6 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            /*
+            !/data/pf/
+            !/data/area/
+          sparse-checkout-cone-mode: false
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Check EPA distribution
+        id: check
+        run: |
+          # Not `... | tee`: that would capture tee's exit code, not the check's.
+          set +e
+          python3 tools/check_epa.py --write > /tmp/report.txt 2>&1
+          code=$?
+          set -e
+          cat /tmp/report.txt
+          echo "code=$code" >> "$GITHUB_OUTPUT"
+        # 0 unchanged, 2 changed, 1 the check itself failed.
+
+      - name: Record the result in the run summary
+        run: |
+          {
+            echo '## EPA IIOAC distribution check'
+            echo
+            echo '```'
+            cat /tmp/report.txt
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Fail if the check itself broke
+        if: steps.check.outputs.code == '1'
+        run: |
+          echo 'HEAD request failed. EPA may have moved or withdrawn the download.'
+          exit 1
+
+      # Only commits when something actually changed, so the log does not fill
+      # with 52 no-op checks a year. The weekly evidence lives in the summary.
+      - name: Publish the staleness notice
+        if: steps.check.outputs.code == '2'
+        run: |
+          git config user.name  'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git add data/epa-version.json
+          git commit -m 'EPA republished the IIOAC distribution' -m 'Recorded so the site discloses it may be stale. The checksum baseline is deliberately unchanged: it moves when the port has been re-validated, not when the upstream file moves.'
+          git push
+
+      - name: Open a tracking issue
+        if: steps.check.outputs.code == '2'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh issue create \
+            --title 'EPA republished the IIOAC distribution' \
+            --body-file .github/upstream-issue.md

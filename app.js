@@ -204,7 +204,24 @@ async function run() {
   }
 }
 
+async function showStaleNotice() {
+  // Disclosure only. A failure here must never stop the calculator working.
+  try {
+    const res = await fetch('data/epa-version.json');
+    if (!res.ok) return;
+    const v = await res.json();
+    if (!v.upstreamChanged) return;
+    const on = v.upstreamChangedOn ? ` on ${v.upstreamChangedOn}` : '';
+    const issue = v.issueUrl ? ` <a href="${v.issueUrl}">Tracking issue</a>.` : '';
+    $('staleDetail').innerHTML =
+      `The distribution changed${on}. This page implements EPA IIOAC ${v.portedEpaVersion}, ` +
+      `so its numbers may no longer match EPA's current model.${issue}`;
+    $('staleNotice').hidden = false;
+  } catch { /* offline, or served without the file */ }
+}
+
 (async function init() {
+  showStaleNotice();
   try {
     const res = await fetch('data/lookups.json');
     if (!res.ok) throw new Error(`lookups.json returned ${res.status}`);

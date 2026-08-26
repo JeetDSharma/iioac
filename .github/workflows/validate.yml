@@ -1,0 +1,50 @@
+name: validate
+
+# Every push, and weekly. The weekly run is the point: it catches the toolchain
+# rotting out from under a port whose whole value is matching EPA's numbers,
+# before a user finds it.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    - cron: '17 6 * * 1'
+  workflow_dispatch:
+
+jobs:
+  fidelity:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # data/pf is 226 MB and the fidelity suite does not read it; it reads
+          # the original EPA .xlsx instead. lookups.json is needed, so this is a
+          # non-cone pattern list rather than a cone include.
+          sparse-checkout: |
+            /*
+            !/data/pf/
+            !/data/area/
+          sparse-checkout-cone-mode: false
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - run: pip install openpyxl
+
+      # EPA's distribution is 331 MB and immutable for a given checksum manifest,
+      # so key the cache on the manifest and download it once, not weekly.
+      - uses: actions/cache@v4
+        with:
+          path: tests/fixtures/iioac_1.0.zip
+          key: epa-dist-${{ hashFiles('tests/fixtures.sha256') }}
+
+      - name: Fetch and verify EPA fixtures
+        run: python3 tests/fetch_fixtures.py
+
+      - name: Run suites
+        run: cd tests && ./run_all.sh --fast

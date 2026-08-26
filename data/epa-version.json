@@ -1,0 +1,13 @@
+{
+  "portedEpaVersion": "1.0",
+  "upstreamChanged": false,
+  "upstreamChangedOn": null,
+  "issueUrl": null,
+  "distribution": {
+    "url": "https://www.epa.gov/sites/default/files/2019-06/iioac_1.0.zip",
+    "etag": "\"2c9575ed7cf77633ba04db6dd2c0c4b4-42\"",
+    "lastModified": "Fri, 25 Jun 2021 13:32:58 GMT",
+    "contentLength": 347071583
+  },
+  "lastChecked": "2026-08-25"
+}
