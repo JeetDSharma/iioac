@@ -37,7 +37,8 @@ worst_overall = 0.0
 for case, eng in zip(cases, engine):
     grid = oracle.load_xlsx_grid(eng['file'].replace('.bin', '.xlsx'))
     ref, ref_sf, _ = oracle.calculate(grid, case['scenarios'], case['area'],
-                                      case['particleLabel'], case['locale'])
+                                      case['particleLabel'], case['locale'],
+                                      source=case.get('source', 'fugitive'))
 
     # Scaling factors
     sf_worst = max(rel(ref_sf[k], eng['scalingFactors'][k]) for k in ref_sf)
@@ -83,10 +84,35 @@ check('indoor/outdoor ratios match lookups!B57/B58',
       f"{L['indoorOutdoorRatio']} vs {ratios}")
 
 caps = W.fugitive_caps()
-check('fugitive caps match lookups row 63/64',
+check('fugitive caps match lookups row 63/64 (Fugitive columns C/E/G)',
       all(L['fugitiveCaps'][k]['dailyAir'] == v['dailyAir']
           and L['fugitiveCaps'][k]['annualAir'] == v['annualAir']
           for k, v in caps.items()), str(caps))
+
+pcaps = W.point_caps()
+check('point caps match lookups row 63/64 (Point columns B/D/F)',
+      all(L['pointCaps'][k]['dailyAir'] == v['dailyAir']
+          and L['pointCaps'][k]['annualAir'] == v['annualAir']
+          for k, v in pcaps.items()), str(pcaps))
+
+# Point sources must have no scaling block anywhere in lookups. If EPA ever adds
+# one, the point pages silently stop matching, so assert its absence.
+labels = [c.value for c in W.wb()['lookups']['A'] if isinstance(c.value, str)]
+check('lookups defines scaling coefficients for Area and Fugitive only',
+      sorted(x for x in labels if 'Scaling Factor Coefficients' in x)
+      == ['*Scaling Factor Coefficients - Area Source',
+          '*Scaling Factor Coefficients - Fugitive Source'],
+      str([x for x in labels if 'Scaling Factor Coefficients' in x]))
+
+wb_types = W.point_source_types()
+type_bad = [(a, b) for a, b in zip(wb_types, L['pointSourceTypes'])
+            if a['label'] != b['label']
+            or a['releaseHeight'] != b['releaseHeight']
+            or a['stackDiameter'] != b['stackDiameter']
+            or a['exitGasTemp'] != b['exitGasTemp']
+            or a['exitGasVelocity'] != b['exitGasVelocity']]
+check('all 3 point source types match lookups!B2:F4',
+      not type_bad and len(wb_types) == 3, str(type_bad[:2]))
 
 wb_scaling = W.fugitive_scaling_coefficients()
 sc_bad = [(k, band) for k, v in wb_scaling.items() for band, ab in v.items()

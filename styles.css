@@ -141,3 +141,11 @@ footer .cite { margin: 6px 0 0; font-size: 13px; color: var(--muted); max-width:
   .card { padding: 16px 12px; }
   .scenarios td:first-child { min-width: 130px; }
 }
+
+/* Source path switcher. One page per IIOAC source path, each following its own
+   input sheet's field order rather than a shared generic form. */
+.paths { margin-top: 10px; font-size: .9rem; }
+.paths a, .paths span { display: inline-block; padding: 4px 10px; border-radius: 999px; }
+.paths a { color: inherit; opacity: .75; text-decoration: none; border: 1px solid transparent; }
+.paths a:hover { opacity: 1; text-decoration: underline; }
+.paths [aria-current="page"] { background: rgba(255, 255, 255, .16); font-weight: 600; }

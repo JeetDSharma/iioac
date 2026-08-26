@@ -39,10 +39,12 @@ FINGERPRINT = os.path.join(HERE, 'model_fingerprint.json')
 # this alongside everything else, so it is recorded rather than assumed.
 EPA_VERSION = '1.0'
 
-# Sheets carrying the formulas the fugitive port was read from. The other
+# Sheets carrying the formulas the ported paths were read from. The other
 # sheets are fingerprinted too, but a drift in these is a direct hit on shipped
 # behaviour rather than a heads-up about unported work.
 PORTED_SHEETS = [
+    'Point Calculations Prelim',
+    'Point Output Prelim',
     'Fugitive Calculations Prelim',
     'Fugitive Output Prelim',
     'lookups',

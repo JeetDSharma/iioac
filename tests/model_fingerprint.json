@@ -712,7 +712,7 @@
     },
     "Point Calculations Prelim": {
       "formulaCells": 6100,
-      "ported": false,
+      "ported": true,
       "sha256": "2254a1d3506af5cb84c57e65440bb78fd472b4bc870232faf0f34296dd8da52d"
     },
     "Point Output": {
@@ -722,7 +722,7 @@
     },
     "Point Output Prelim": {
       "formulaCells": 132,
-      "ported": false,
+      "ported": true,
       "sha256": "f9eb8c4d1e067a31c225c1edbefec1f3c03edae5d9f7d406af9cf91afccb6eec"
     },
     "Point+Fugitive Lookup": {

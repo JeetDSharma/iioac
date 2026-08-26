@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>IIOAC: Fugitive Source</title>
+<title>IIOAC: Point Source</title>
 <meta name="iioac-version" content="1.1.0">
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -11,10 +11,10 @@
 <header>
   <div class="wrap">
     <h1>Indoor &amp; Outdoor Air Calculator</h1>
-    <p class="sub">Fugitive source · web port of EPA IIOAC 1.0</p>
+    <p class="sub">Point source · web port of EPA IIOAC 1.0</p>
     <nav class="paths">
-      <span aria-current="page">Fugitive source</span>
-      <a href="point.html">Point source</a>
+      <a href="index.html">Fugitive source</a>
+      <span aria-current="page">Point source</span>
     </nav>
   </div>
 </header>
@@ -48,8 +48,8 @@
       </label>
     </div>
     <details class="muted-block">
-      <summary>Chemical properties <span class="tag">not used for fugitive sources</span></summary>
-      <p class="hint">IIOAC greys these out for point and fugitive sources, and no fugitive formula
+      <summary>Chemical properties <span class="tag">not used for point sources</span></summary>
+      <p class="hint">IIOAC greys these out for point and fugitive sources, and no point formula
         reads them. They are kept here because the workbook carries the Chemical sheet into every
         exported result, and Area Soil / Area Water do use them.</p>
       <div class="grid">
@@ -64,12 +64,23 @@
 
   <section class="card">
     <h2><span class="step">2</span> Source parameters</h2>
+    <p class="hint">The source type fixes all four stack parameters, exactly as the workbook's
+      dropdown does. They are shown here because they select the pre-computed AERMOD run.</p>
     <div class="grid">
-      <label>Area of source (m²)
-        <input id="area" type="number" min="1" step="any" value="10000">
+      <label>Point source type
+        <select id="sourceType"></select>
       </label>
       <label>Release height (m)
-        <input id="height" type="text" value="3.05" disabled>
+        <input id="height" type="text" disabled>
+      </label>
+      <label>Stack inside diameter (m)
+        <input id="stackDiameter" type="text" disabled>
+      </label>
+      <label>Exit gas temperature (K)
+        <input id="exitGasTemp" type="text" disabled>
+      </label>
+      <label>Exit gas velocity (m/s)
+        <input id="exitGasVelocity" type="text" disabled>
       </label>
       <label>Urban or rural
         <select id="locale"><option>Urban</option><option>Rural</option></select>
@@ -166,13 +177,13 @@
     <p class="reachout">Using this in your work? I would like to hear about it:
       <a href="mailto:jeetdsharma@gmail.com?subject=IIOAC%20calculator">jeetdsharma@gmail.com</a></p>
     <p class="verify" id="verifyLine" hidden></p>
-    <p class="colophon">A web port of the fugitive-source path of EPA's Indoor and Outdoor Air
+    <p class="colophon">A web port of the point-source path of EPA's Indoor and Outdoor Air
       Calculator (IIOAC 1.0). Results are checked against the original workbook's own formulas
       and AERMOD run files. Not affiliated with or endorsed by the U.S. EPA.</p>
   </div>
 </footer>
 
 <script defer src="/_vercel/insights/script.js"></script>
-<script type="module" src="app.js"></script>
+<script type="module" src="point.js"></script>
 </body>
 </html>

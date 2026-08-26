@@ -1,6 +1,6 @@
 {
  "_generated_by": "tools/build_lookups.py \u2014 do not edit by hand",
- "_source": "iioac_1.0.xlsm, sheets: lookups, Source Inputs Fugitive",
+ "_source": "iioac_1.0.xlsm, sheets: lookups, Source Inputs Fugitive, Source Inputs Point",
  "climateRegions": [
   {
    "region": "East North Central",
@@ -190,6 +190,46 @@
    "annualAir": null
   }
  },
+ "pointCaps": {
+  "Coarse": {
+   "dailyAir": 150,
+   "annualAir": 150
+  },
+  "Fine": {
+   "dailyAir": 35,
+   "annualAir": 35
+  },
+  "No particles (vapor only)": {
+   "dailyAir": null,
+   "annualAir": null
+  }
+ },
+ "pointSourceTypes": [
+  {
+   "label": "Stack",
+   "slug": "stack",
+   "releaseHeight": 10,
+   "stackDiameter": 2,
+   "exitGasTemp": 300,
+   "exitGasVelocity": 5
+  },
+  {
+   "label": "Incinerator 1",
+   "slug": "incinerator1",
+   "releaseHeight": 25,
+   "stackDiameter": 1,
+   "exitGasTemp": 500,
+   "exitGasVelocity": 15
+  },
+  {
+   "label": "Incinerator 2",
+   "slug": "incinerator2",
+   "releaseHeight": 50,
+   "stackDiameter": 2,
+   "exitGasTemp": 1200,
+   "exitGasVelocity": 15
+  }
+ ],
  "emissionRateConstant": 0.2778,
  "receptors": [
   {
@@ -265,5 +305,6 @@
   "pctIndoor": 0.8338984783170704,
   "pctOutdoor": 0.16610152168292958
  },
- "fugitiveReleaseHeight": 3.05
+ "fugitiveReleaseHeight": 3.05,
+ "pointHasAreaScaling": false
 }

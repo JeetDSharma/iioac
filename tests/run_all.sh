@@ -25,6 +25,10 @@ echo "=== unit tests (JS) ==============================================="
 node test_units.mjs || status=1
 
 echo
+echo "=== page wiring (ids, module graph, build stamp) =================="
+node test_pages.mjs || status=1
+
+echo
 echo "=== engine vs workbook oracle ====================================="
 run_py test_engine.py
 

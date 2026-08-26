@@ -4,9 +4,9 @@ What is ported, what is not, and what happens when EPA updates IIOAC.
 
 ## Where things stand
 
-The workbook has 28 sheets covering four source paths. Four sheets are ported:
+The workbook has 28 sheets covering four source paths. Eight sheets are ported:
 `Fugitive Calculations Prelim`, `Fugitive Calculations`, `Fugitive Output Prelim`,
-and `Fugitive Output`.
+`Fugitive Output`, and the four `Point` sheets that mirror them.
 
 The AERMOD data, though, is converted for every path. `tools/convert.py` reads the
 whole of `IIOAC_RunFiles.zip` and writes both families at once:
@@ -22,13 +22,39 @@ So the remaining work is calculation and interface logic, not data conversion.
 | Path | Sheets | Data | Notes |
 |---|---|---|---|
 | Fugitive | 4 | ready | Done |
-| Point | 7 | ready | Same lookup-times-emission shape as fugitive, plus stack parameters and the two `Point Aggregate` sheets, which have no fugitive analogue |
+| Point | 4 | ready | Done. The two `Point Aggregate` sheets are a VBA export table, not model logic, and are not ported |
 | Area soil | 5 | ready | Different in kind, see below |
 | Area water | 5 | ready | Same, and doubled by the batch and continuous-flow variants |
 | `All Sources Output` | 1 | n/a | Cross-path aggregation, only meaningful once a second path exists |
 | `Input Import` | 1 | n/a | Bulk scenario import |
 
-Point is next, because the data is ready and the shape is familiar.
+### What the point path turned out to be
+
+Point looked like the larger of the two facility paths and was not. Comparing every
+formula in `Point Calculations Prelim`, `Point Calculations`, `Point Output Prelim`
+and `Point Output` against their fugitive counterparts, normalising only the sheet
+name, finds no difference: 6283, 183, 190 and 45 cells respectively, all identical.
+The two remaining artifacts are a wider inert `SUM` range (`E:CZ` against `E:CW`, both
+far past the ten scenario columns either sheet populates) and a stray
+`Saturation Air Concentration` label that only fugitive carries.
+
+So the point path shares the fugitive engine. It differs only in its inputs:
+
+* the source type (Stack, Incinerator 1, Incinerator 2) fixes release height, stack
+  inside diameter, exit gas temperature and exit gas velocity, and adds a dimension to
+  the run file, which is why point has 504 of them and fugitive 168
+* `lookups` has no `Scaling Factor Coefficients - Point Source` block and the point
+  input sheet has no area, so every point scaling factor is 1
+* caps come from the Point columns of the `lookups!B60` block (B, D, F), which hold the
+  same numbers as the Fugitive columns in IIOAC 1.0 but are separate cells
+
+`Point Aggregate` and `Point Aggregate Pivot` are empty headers at rest, filled by VBA,
+and the Pivot still holds EPA's own example run. They are a multi-scenario export table
+rather than model logic, so they are out of scope; the CSV export covers the same need.
+
+The oracle does not assume any of this. `tests/oracle.py` re-derives the point row maps
+from the point sheets, so if EPA ever changes one path independently the suite notices
+instead of quietly reusing the other.
 
 The area paths are not more of the same. For fugitive and point the user supplies an
 emission rate and the model multiplies it by a unit value. For area soil and water the
@@ -56,7 +82,7 @@ Two layers. The model layer is everything `tests/workbook.py` recovers from the
 workbook's own formula text — the emission constant, the `INDEX` range maps, the
 indoor/outdoor ratio cells, the cap rows, the scaling exponents, the receptor table —
 so a diff names the number that moved. The sheets layer hashes the formula strings on
-all 28 sheets, including the point and area paths that are not ported, so a change to
+all 28 sheets, including the area paths that are not ported, so a change to
 `SoilCalc` is noticed years before there is an extractor to notice it with; `lookups`
 and `Chemical` are constants tables, so every cell is hashed there, not just formulas.
 
@@ -90,6 +116,7 @@ model forces a major bump here. The version string currently appears in three pl
 that must move together:
 
     index.html      the footer cite line
+    point.html      the footer cite line
     CITATION.cff    version:
     README.md       the citation section
 
@@ -138,9 +165,9 @@ assets and object storage should be made before a third version, not during one.
 
 1. ~~Commit `tools/convert.py` and the distribution checksums.~~ Done.
 2. ~~Model fingerprint, then the EPA release watcher.~~ Done, with weekly CI validation.
-3. The one-command update path.
-4. Point source, including the aggregate sheets.
-5. `All Sources Output`, once there are two paths to aggregate.
+3. ~~Point source.~~ Done. Shares the fugitive engine; see above.
+4. The one-command update path.
+5. `All Sources Output`, now that there are two paths to aggregate.
 6. Area soil and area water.
 
 No dates. The sequence is the commitment.

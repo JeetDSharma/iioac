@@ -160,6 +160,38 @@ def fugitive_caps():
     }
 
 
+def point_caps():
+    """lookups!B60 block: air concentration caps by particle size, point column.
+
+    Row 62 labels the pairs: B/C = Coarse Point/Fugitive, D/E = Fine, F/G = Vapor.
+    The point and fugitive numbers are equal in IIOAC 1.0, but they are separate
+    cells, so read the point ones rather than reusing fugitive_caps().
+    """
+    ws = wb()['lookups']
+    return {
+        'Coarse': {'dailyAir': ws['B63'].value, 'annualAir': ws['B64'].value},
+        'Fine': {'dailyAir': ws['D63'].value, 'annualAir': ws['D64'].value},
+        'No particles (vapor only)': {'dailyAir': ws['F63'].value, 'annualAir': ws['F64'].value},
+    }
+
+
+def point_source_types():
+    """lookups!B1:F4. The point type dropdown drives all four stack parameters."""
+    ws = wb()['lookups']
+    slugs = {'Stack': 'stack', 'Incinerator 1': 'incinerator1', 'Incinerator 2': 'incinerator2'}
+    out = []
+    for r in range(2, 5):
+        label = ws.cell(r, 2).value
+        out.append({
+            'label': label, 'slug': slugs[label],
+            'releaseHeight': ws.cell(r, 3).value,
+            'stackDiameter': ws.cell(r, 4).value,
+            'exitGasTemp': ws.cell(r, 5).value,
+            'exitGasVelocity': ws.cell(r, 6).value,
+        })
+    return out
+
+
 def fugitive_scaling_coefficients():
     """lookups!A43:E54 -> {particle+locale: {band: (a, b)}}."""
     ws = wb()['lookups']

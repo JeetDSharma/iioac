@@ -27,6 +27,27 @@ if not os.path.exists(RUNFILES):
 
 BAND_ORDER = ['inner', 'outer', 'all', 'community']
 
+# Each source path is re-derived from its OWN sheets. The point and fugitive
+# chains happen to be formula-identical in IIOAC 1.0, but the oracle does not
+# assume that: it reads the point row maps out of the point sheets, so if EPA
+# ever changes one path the tests notice instead of silently reusing the other.
+SOURCES = {
+    'fugitive': {
+        'calc': 'Fugitive Calculations Prelim',
+        'output': 'Fugitive Output Prelim',
+        'caps': lambda: W.fugitive_caps(),
+        'scaled': True,
+    },
+    'point': {
+        'calc': 'Point Calculations Prelim',
+        'output': 'Point Output Prelim',
+        'caps': lambda: W.point_caps(),
+        # lookups has no "Scaling Factor Coefficients - Point Source" block and
+        # the point input sheet has no area, so nothing is scaled.
+        'scaled': False,
+    },
+}
+
 
 def load_xlsx_grid(name):
     """1460 x 60 floats from an AERMOD results workbook, read with openpyxl."""
@@ -55,17 +76,19 @@ def scaling_factors(area, particle_label, locale):
     return out
 
 
-def calculate(grid, scenarios, area, particle_label, locale):
-    """Returns {(stat, location): {...}} mirroring 'Fugitive Output Prelim' rows 5-10."""
-    row_map = W.calc_row_map()
-    labels = W.calc_row_labels()
-    out_rows = W.output_row_map()
-    rate_const = W.emission_rate_constant()
+def calculate(grid, scenarios, area, particle_label, locale, source='fugitive'):
+    """Returns {(stat, location): {...}} mirroring the path's Output Prelim rows 5-10."""
+    spec_src = SOURCES[source]
+    row_map = W.calc_row_map(spec_src['calc'])
+    labels = W.calc_row_labels(spec_src['calc'])
+    out_rows = W.output_row_map(spec_src['output'])
+    rate_const = W.emission_rate_constant(spec_src['calc'])
     ratios = W.io_ratios()
-    caps = W.fugitive_caps()[particle_label]
-    sf = scaling_factors(area, particle_label, locale)
+    caps = spec_src['caps']()[particle_label]
+    sf = (scaling_factors(area, particle_label, locale) if spec_src['scaled']
+          else {b: 1.0 for b in BAND_ORDER})
     receptors = W.receptor_table()
-    coeffs = W.dose_formula_coefficients()
+    coeffs = W.dose_formula_coefficients(spec_src['output'])
 
     # Which cap governs which calculation row, following LoopCalcs' block ranges.
     def cap_for(calc_row):

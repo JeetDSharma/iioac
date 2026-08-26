@@ -26,15 +26,18 @@ if (!sha) {
   process.exit(0);
 }
 
-const html = readFileSync('index.html', 'utf8');
-if (!MARKER.test(html)) {
-  console.error('stamp_version: build marker not found in index.html');
-  process.exit(1);
-}
+// One page per IIOAC source path; every one carries the same build stamp.
+const PAGES = ['index.html', 'point.html'];
 
-const stamped = html.replace(
-  MARKER,
-  `<a id="build" href="${REPO}/commit/${sha}">${sha.slice(0, 7)}</a>`
-);
-writeFileSync('index.html', stamped);
-console.log(`stamp_version: stamped ${sha.slice(0, 7)}`);
+for (const page of PAGES) {
+  const html = readFileSync(page, 'utf8');
+  if (!MARKER.test(html)) {
+    console.error(`stamp_version: build marker not found in ${page}`);
+    process.exit(1);
+  }
+  writeFileSync(page, html.replace(
+    MARKER,
+    `<a id="build" href="${REPO}/commit/${sha}">${sha.slice(0, 7)}</a>`
+  ));
+}
+console.log(`stamp_version: stamped ${sha.slice(0, 7)} into ${PAGES.join(', ')}`);

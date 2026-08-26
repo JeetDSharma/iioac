@@ -1,10 +1,13 @@
-# IIOAC: Fugitive Source (web)
+# IIOAC: Point and Fugitive Sources (web)
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22101723.svg)](https://doi.org/10.5281/zenodo.22101723)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-A browser version of the fugitive-source path of EPA's Indoor and Outdoor Air
-Calculator (IIOAC 1.0). No Excel, no macros.
+A browser version of the point- and fugitive-source paths of EPA's Indoor and Outdoor
+Air Calculator (IIOAC 1.0). No Excel, no macros.
+
+One page per source path, each following the field order of its own workbook input
+sheet: `index.html` for fugitive, `point.html` for point.
 
 ## Run it
 
@@ -24,12 +27,18 @@ community locations. Export CSV for the results.
 
 | Workbook | Here |
 |---|---|
-| `Chemical` | Section 1 of the page |
-| `Source Inputs Fugitive` | Sections 2 and 3 of the page |
+| `Chemical` | Section 1 of each page |
+| `Source Inputs Fugitive` | Sections 2 and 3 of `index.html` |
+| `Source Inputs Point` | Sections 2 and 3 of `point.html` |
 | `Point+Fugitive Lookup` (loaded from `IIOAC_RunFiles.zip` by VBA) | `data/pf/*.bin` |
-| `Fugitive Calculations Prelim` / `Fugitive Calculations` | `engine.js` → `calculate()` |
-| `Fugitive Output Prelim` | dose formulas in `calculate()` |
+| `Fugitive` / `Point Calculations Prelim` and `Calculations` | `engine.js` → `calculate()` |
+| `Fugitive` / `Point Output Prelim` | dose formulas in `calculate()` |
 | `lookups` | `data/lookups.json` |
+
+One `calculate()` serves both paths because the workbook's two chains are
+formula-identical; see [ROADMAP.md](ROADMAP.md) for the cell-by-cell comparison. The
+page controllers (`app.js`, `point.js`) hold what differs, and `ui.js` holds what does
+not.
 
 Core relation, unchanged from the workbook:
 
@@ -40,10 +49,10 @@ receptor band, release frequency, and emission duration.
 
 ## Tests
 
-    cd tests && ./run_all.sh          # 74 assertions, ~2.5 min
-    cd tests && ./run_all.sh --fast   # skip the 672-file sweep, ~20 s
+    cd tests && ./run_all.sh          # 94 assertions, ~2.5 min
+    cd tests && ./run_all.sh --fast   # skip the 672-file sweep, ~15 s
 
-Five checks, each catching something the others would not:
+Six checks, each catching something the others would not:
 
     EPA's distribution (347 MB zip)
             │
@@ -65,9 +74,10 @@ Five checks, each catching something the others would not:
 | Check | Catches what nothing else would |
 |---|---|
 | ① `fetch_fixtures.py` + `fixtures.sha256` | The wrong EPA input. Every check below it would validate happily against a corrupted or silently republished file and report success. |
-| ② `fingerprint.py` | A formula or constant moving, including on the 24 sheets no test exercises, so the unported paths still have a tripwire. |
+| ② `fingerprint.py` | A formula or constant moving, including on the 23 sheets no test exercises, so the unported paths still have a tripwire. |
 | ③ ④ `test_engine.py` | The engine computing something different from the workbook. |
 | ⑤ `test_data.py` | A conversion bug in any of the 672 `.bin` files. Check ④ only exercises 18 of them. |
+| ⑥ `test_pages.mjs` | A page that is missing an element id its scripts reach for. The pages share `ui.js`, so this is the failure the numeric checks cannot see: correct arithmetic behind a page that throws on load. |
 
 Check ④ is the one the tool stands on, so its independence matters. `engine.js` reads the
 converted `.bin` files; `oracle.py` reads the original AERMOD `.xlsx` through openpyxl.
@@ -91,8 +101,8 @@ consecutive/cyclical x source subtype) combination, converted from the xlsx file
 days/year) x 60 columns (15 parameter/statistic groups x 4 emission durations). The
 page fetches only the one file matching the current selection, about 350 KB.
 
-Point-source run files are converted too, so wiring up the point path later needs no
-new data work.
+Both facility paths read this directory: 168 fugitive files and 504 point files, the
+latter carrying the extra source-type dimension.
 
 ## Fidelity notes
 
@@ -113,14 +123,19 @@ the workbook:
 - Vapor has no air concentration cap, so vapor air results are neither scaled nor
   capped.
 
+Point sources are not area-scaled at all. `lookups` defines scaling coefficients for
+the Area and Fugitive paths only, and `Source Inputs Point` has no area field to scale
+by, so every point scaling factor is 1. The test suite asserts that no point scaling
+block appears, so if EPA adds one the port stops claiming a match.
+
 Caps are applied per scenario before scenarios are summed, matching the 2018 change
 noted in the workbook's VBA.
 
 ## Roadmap
 
-Only the fugitive path is ported, though the AERMOD data for point and area sources is
-already converted. [ROADMAP.md](ROADMAP.md) covers what is left, and the plan for
-tracking EPA's own updates to IIOAC.
+The point and fugitive paths are ported. Area soil and area water are not, though their
+AERMOD data is already converted. [ROADMAP.md](ROADMAP.md) covers what is left, and the
+plan for tracking EPA's own updates to IIOAC.
 
 ## Citing
 

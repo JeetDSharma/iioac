@@ -40,7 +40,7 @@ scaling = {k: {band: ab['b'] for band, ab in v.items()}
 
 lookups = {
     '_generated_by': 'tools/build_lookups.py — do not edit by hand',
-    '_source': 'iioac_1.0.xlsm, sheets: lookups, Source Inputs Fugitive',
+    '_source': 'iioac_1.0.xlsm, sheets: lookups, Source Inputs Fugitive, Source Inputs Point',
     'climateRegions': climate,
     'particleSizes': particles,
     'emissionDurations': durations,
@@ -50,6 +50,8 @@ lookups = {
     'fugitiveScalingB': scaling,
     'fugitiveScalingReferenceArea': W.scaling_reference_area(),
     'fugitiveCaps': W.fugitive_caps(),
+    'pointCaps': W.point_caps(),
+    'pointSourceTypes': W.point_source_types(),
     'emissionRateConstant': W.emission_rate_constant(),
     'receptors': [{'name': r['name'].split(' (')[0], 'ages': r['name'].split('(')[1].rstrip(')'),
                    'bw': r['bw'], 'inhAcute': r['inhAcute'], 'inhChronic': r['inhChronic'],
@@ -60,6 +62,10 @@ lookups = {
                  'inhChronic': receptors[7]['inhChronic'],
                  'pctIndoor': receptors[7]['pctIndoor'], 'pctOutdoor': receptors[7]['pctOutdoor']},
     'fugitiveReleaseHeight': fug['C7'].value,
+    # Point sources have no area input and no scaling coefficient block in
+    # lookups, so every point scaling factor is 1. Recorded so the page can say
+    # so rather than leaving it implied.
+    'pointHasAreaScaling': False,
 }
 
 with open(OUT, 'w') as f:
@@ -67,5 +73,6 @@ with open(OUT, 'w') as f:
 print(f'wrote {OUT}')
 print('  regions', len(lookups['climateRegions']), '| receptors', len(lookups['receptors']),
       '| durations', [d['label'] for d in durations])
+print('  point types', [t['slug'] for t in lookups['pointSourceTypes']])
 print('  release height', lookups['fugitiveReleaseHeight'],
       '| rate const', lookups['emissionRateConstant'])

@@ -45,6 +45,14 @@ export function runFileName({ particle, locale, met, emissionType }) {
   return `results_fugitive_${particle}_${locale.toLowerCase()}_met${met}_${emissionType.toLowerCase()}.bin`;
 }
 
+// Point run files carry one extra dimension the fugitive ones do not: the source
+// type picked on 'Source Inputs Point' (Stack, Incinerator 1, Incinerator 2),
+// which is also what fixes release height, stack diameter, exit gas temperature
+// and velocity. 3 types x 3 particle x 2 locale x 14 met x 2 patterns = 504 files.
+export function pointRunFileName({ sourceType, particle, locale, met, emissionType }) {
+  return `results_point_${sourceType}_${particle}_${locale.toLowerCase()}_met${met}_${emissionType.toLowerCase()}.bin`;
+}
+
 export async function loadGrid(url) {
   const res = await fetch(url);
   if (!res.ok) throw new Error(`Could not load ${url} (${res.status})`);
@@ -68,6 +76,10 @@ function unitValue(grid, band, frequency, colBase, durationCol) {
 
 // (a * area^b) / (a * 100^b) reduces to (area / 100)^b.
 export function scalingFactors(area, particleLabel, locale, table, referenceArea = 100) {
+  // Only Area and Fugitive have a "Scaling Factor Coefficients" block in lookups.
+  // Point sources have none, and no area input to feed one, so their factors are
+  // all 1. A null table means "this source path does not scale", not "missing data".
+  if (table == null) return { inner: 1, outer: 1, community: 1, all: 1 };
   const b = table[particleLabel + locale];
   if (!b) throw new Error(`No fugitive scaling coefficients for "${particleLabel}" + "${locale}"`);
   if (!(area > 0)) throw new RangeError(`Area of source must be greater than 0, got ${area}`);

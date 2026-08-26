@@ -1,17 +1,214 @@
 [
- {"name":"fine urban, single 8hr scenario","area":10000,"particleLabel":"Fine","locale":"Urban","region":"Southeast (Inland)","emissionType":"Consecutive",
-  "scenarios":[{"name":"A","amount":5,"hours":8,"durationCol":2,"frequency":250}]},
- {"name":"coarse rural, two scenarios","area":2500,"particleLabel":"Coarse","locale":"Rural","region":"West (Inland)","emissionType":"Cyclical",
-  "scenarios":[{"name":"A","amount":12,"hours":24,"durationCol":3,"frequency":365},
-               {"name":"B","amount":0.4,"hours":1,"durationCol":0,"frequency":12}]},
- {"name":"vapor urban, uncapped and unscaled","area":50000,"particleLabel":"No particles (vapor only)","locale":"Urban","region":"Central","emissionType":"Consecutive",
-  "scenarios":[{"name":"A","amount":80,"hours":4,"durationCol":1,"frequency":200}]},
- {"name":"cap-hitting fine release","area":100,"particleLabel":"Fine","locale":"Urban","region":"East North Central","emissionType":"Consecutive",
-  "scenarios":[{"name":"huge","amount":5000,"hours":1,"durationCol":0,"frequency":365}]},
- {"name":"frequency lower bound","area":10000,"particleLabel":"Coarse","locale":"Urban","region":"Northeast (Coastal)","emissionType":"Cyclical",
-  "scenarios":[{"name":"A","amount":3,"hours":24,"durationCol":3,"frequency":1}]},
- {"name":"three scenarios mixed durations","area":750,"particleLabel":"Fine","locale":"Rural","region":"South (Coastal)","emissionType":"Consecutive",
-  "scenarios":[{"name":"A","amount":1,"hours":1,"durationCol":0,"frequency":50},
-               {"name":"B","amount":2.5,"hours":4,"durationCol":1,"frequency":150},
-               {"name":"C","amount":9,"hours":8,"durationCol":2,"frequency":300}]}
+ {
+  "name": "fine urban, single 8hr scenario",
+  "area": 10000,
+  "particleLabel": "Fine",
+  "locale": "Urban",
+  "region": "Southeast (Inland)",
+  "emissionType": "Consecutive",
+  "scenarios": [
+   {
+    "name": "A",
+    "amount": 5,
+    "hours": 8,
+    "durationCol": 2,
+    "frequency": 250
+   }
+  ],
+  "source": "fugitive"
+ },
+ {
+  "name": "coarse rural, two scenarios",
+  "area": 2500,
+  "particleLabel": "Coarse",
+  "locale": "Rural",
+  "region": "West (Inland)",
+  "emissionType": "Cyclical",
+  "scenarios": [
+   {
+    "name": "A",
+    "amount": 12,
+    "hours": 24,
+    "durationCol": 3,
+    "frequency": 365
+   },
+   {
+    "name": "B",
+    "amount": 0.4,
+    "hours": 1,
+    "durationCol": 0,
+    "frequency": 12
+   }
+  ],
+  "source": "fugitive"
+ },
+ {
+  "name": "vapor urban, uncapped and unscaled",
+  "area": 50000,
+  "particleLabel": "No particles (vapor only)",
+  "locale": "Urban",
+  "region": "Central",
+  "emissionType": "Consecutive",
+  "scenarios": [
+   {
+    "name": "A",
+    "amount": 80,
+    "hours": 4,
+    "durationCol": 1,
+    "frequency": 200
+   }
+  ],
+  "source": "fugitive"
+ },
+ {
+  "name": "cap-hitting fine release",
+  "area": 100,
+  "particleLabel": "Fine",
+  "locale": "Urban",
+  "region": "East North Central",
+  "emissionType": "Consecutive",
+  "scenarios": [
+   {
+    "name": "huge",
+    "amount": 5000,
+    "hours": 1,
+    "durationCol": 0,
+    "frequency": 365
+   }
+  ],
+  "source": "fugitive"
+ },
+ {
+  "name": "frequency lower bound",
+  "area": 10000,
+  "particleLabel": "Coarse",
+  "locale": "Urban",
+  "region": "Northeast (Coastal)",
+  "emissionType": "Cyclical",
+  "scenarios": [
+   {
+    "name": "A",
+    "amount": 3,
+    "hours": 24,
+    "durationCol": 3,
+    "frequency": 1
+   }
+  ],
+  "source": "fugitive"
+ },
+ {
+  "name": "three scenarios mixed durations",
+  "area": 750,
+  "particleLabel": "Fine",
+  "locale": "Rural",
+  "region": "South (Coastal)",
+  "emissionType": "Consecutive",
+  "scenarios": [
+   {
+    "name": "A",
+    "amount": 1,
+    "hours": 1,
+    "durationCol": 0,
+    "frequency": 50
+   },
+   {
+    "name": "B",
+    "amount": 2.5,
+    "hours": 4,
+    "durationCol": 1,
+    "frequency": 150
+   },
+   {
+    "name": "C",
+    "amount": 9,
+    "hours": 8,
+    "durationCol": 2,
+    "frequency": 300
+   }
+  ],
+  "source": "fugitive"
+ },
+ {
+  "source": "point",
+  "name": "point stack, coarse urban",
+  "sourceType": "Stack",
+  "area": null,
+  "particleLabel": "Coarse",
+  "locale": "Urban",
+  "region": "West North Central",
+  "emissionType": "Consecutive",
+  "scenarios": [
+   {
+    "name": "A",
+    "amount": 6,
+    "hours": 8,
+    "durationCol": 2,
+    "frequency": 250
+   }
+  ]
+ },
+ {
+  "source": "point",
+  "name": "point incinerator 1, fine urban",
+  "sourceType": "Incinerator 1",
+  "area": null,
+  "particleLabel": "Fine",
+  "locale": "Urban",
+  "region": "West North Central",
+  "emissionType": "Consecutive",
+  "scenarios": [
+   {
+    "name": "A",
+    "amount": 2,
+    "hours": 4,
+    "durationCol": 1,
+    "frequency": 180
+   },
+   {
+    "name": "B",
+    "amount": 11,
+    "hours": 24,
+    "durationCol": 3,
+    "frequency": 365
+   }
+  ]
+ },
+ {
+  "source": "point",
+  "name": "point incinerator 2, coarse rural cyclical",
+  "sourceType": "Incinerator 2",
+  "area": null,
+  "particleLabel": "Coarse",
+  "locale": "Rural",
+  "region": "Southwest",
+  "emissionType": "Cyclical",
+  "scenarios": [
+   {
+    "name": "A",
+    "amount": 0.75,
+    "hours": 1,
+    "durationCol": 0,
+    "frequency": 1
+   }
+  ]
+ },
+ {
+  "source": "point",
+  "name": "point incinerator 2, cap-hitting coarse",
+  "sourceType": "Incinerator 2",
+  "area": null,
+  "particleLabel": "Coarse",
+  "locale": "Urban",
+  "region": "Northwest (Coastal)",
+  "emissionType": "Cyclical",
+  "scenarios": [
+   {
+    "name": "huge",
+    "amount": 9000,
+    "hours": 1,
+    "durationCol": 0,
+    "frequency": 365
+   }
+  ]
+ }
 ]
