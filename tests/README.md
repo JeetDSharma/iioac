@@ -1,7 +1,7 @@
 # Tests
 
     ./run_all.sh            # everything (~2.5 min)
-    ./run_all.sh --fast     # skip the 672-file data sweep (~15 s)
+    ./run_all.sh --fast     # skip the 672-file data sweep (~20 s)
 
 Fetch the EPA files first. They are not redistributed here: EPA's licence
 restricts redistribution of the workbook, and the run files are 331 MB.
@@ -48,9 +48,38 @@ scenario additivity, cap clamping, vapor left uncapped).
 independent oracle over the same cases and compares all 23 output values across the six
 rows the workbook reports.
 
+**`fingerprint.py`** — not assertions but a diff. Rebuilds `model_fingerprint.json`
+from the workbook and compares it to the committed copy; any difference fails the run
+and is printed as a list of `where: old -> new` lines. See below.
+
 **`test_data.py`** (10 assertions) — verifies every one of the 672 `.bin` files against
 the `.xlsx` it came from, plus a cell-for-cell check of 12 sampled files (1.05M values)
 read back through openpyxl.
+
+## The model fingerprint
+
+`model_fingerprint.json` is a committed description of EPA's workbook, in two layers.
+
+The **model** layer is every value the port depends on, as recovered by `workbook.py`:
+the emission constant, the row maps, the output wiring, the indoor/outdoor ratio cells,
+the receptor table, the dose coefficients, the caps, the scaling exponents. A diff here
+names the number that moved.
+
+The **sheets** layer hashes the formula strings on all 28 sheets, including the point
+and area paths this repository has not ported. It cannot say what changed, only that
+something did — which is the point for `SoilCalc`, where there is no extractor to
+notice with. Twelve sheets hold no formulas at all: they are populated by VBA from the
+Prelim sheets, so their hash is the hash of nothing and stays that way. For `lookups`
+and `Chemical`, which are mostly typed-in constants that a formula hash would sail
+past, every cell is hashed as well.
+
+    python3 fingerprint.py            # diff against the committed copy
+    python3 fingerprint.py --write    # regenerate, printing what changed
+    python3 fingerprint.py --print    # dump to stdout
+
+When EPA ships a version past 1.0, `--write` turns the new workbook into a reviewable
+list of exactly what EPA changed, with `!` against the parts this port ships today.
+Without it, a new release means re-reading the workbook and hoping nothing was missed.
 
 ## Why the oracle is independent
 

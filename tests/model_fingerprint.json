@@ -1,0 +1,806 @@
+{
+  "epaVersion": "1.0",
+  "model": {
+    "calcRows": {
+      "10": {
+        "band": "all",
+        "columnOffset": 0,
+        "location": "Anywhere",
+        "statistic": "Min"
+      },
+      "11": {
+        "band": "inner",
+        "columnOffset": 0,
+        "location": "Fenceline Avg",
+        "statistic": "Min"
+      },
+      "12": {
+        "band": "outer",
+        "columnOffset": 0,
+        "location": "Outer-boundary Avg",
+        "statistic": "Min"
+      },
+      "13": {
+        "band": "community",
+        "columnOffset": 0,
+        "location": "Community Avg",
+        "statistic": "Min"
+      },
+      "14": {
+        "band": "all",
+        "columnOffset": 20,
+        "location": "Anywhere",
+        "statistic": "Max"
+      },
+      "15": {
+        "band": "inner",
+        "columnOffset": 20,
+        "location": "Fenceline",
+        "statistic": "Max"
+      },
+      "16": {
+        "band": "outer",
+        "columnOffset": 20,
+        "location": "Outer-boundary",
+        "statistic": "Max"
+      },
+      "17": {
+        "band": "community",
+        "columnOffset": 20,
+        "location": "Community",
+        "statistic": "Max"
+      },
+      "18": {
+        "band": "all",
+        "columnOffset": 16,
+        "location": "Anywhere",
+        "statistic": "Mean"
+      },
+      "19": {
+        "band": "inner",
+        "columnOffset": 16,
+        "location": "Fenceline Avg",
+        "statistic": "Mean"
+      },
+      "2": {
+        "band": "all",
+        "columnOffset": 8,
+        "location": "Anywhere",
+        "statistic": "Max"
+      },
+      "20": {
+        "band": "outer",
+        "columnOffset": 16,
+        "location": "Outer-boundary Avg",
+        "statistic": "Mean"
+      },
+      "21": {
+        "band": "community",
+        "columnOffset": 16,
+        "location": "Community Avg",
+        "statistic": "Mean"
+      },
+      "22": {
+        "band": "all",
+        "columnOffset": 12,
+        "location": "Anywhere",
+        "statistic": "Min"
+      },
+      "23": {
+        "band": "inner",
+        "columnOffset": 12,
+        "location": "Fenceline Avg",
+        "statistic": "Min"
+      },
+      "24": {
+        "band": "outer",
+        "columnOffset": 12,
+        "location": "Outer-boundary Avg",
+        "statistic": "Min"
+      },
+      "25": {
+        "band": "community",
+        "columnOffset": 12,
+        "location": "Community Avg",
+        "statistic": "Min"
+      },
+      "26": {
+        "band": "all",
+        "columnOffset": 32,
+        "location": "Anywhere",
+        "statistic": "Max"
+      },
+      "27": {
+        "band": "inner",
+        "columnOffset": 32,
+        "location": "Fenceline",
+        "statistic": "Max"
+      },
+      "28": {
+        "band": "outer",
+        "columnOffset": 32,
+        "location": "Outer-boundary",
+        "statistic": "Max"
+      },
+      "29": {
+        "band": "community",
+        "columnOffset": 32,
+        "location": "Community",
+        "statistic": "Max"
+      },
+      "3": {
+        "band": "inner",
+        "columnOffset": 8,
+        "location": "Fenceline Avg",
+        "statistic": "Max"
+      },
+      "30": {
+        "band": "all",
+        "columnOffset": 28,
+        "location": "Anywhere",
+        "statistic": "Mean"
+      },
+      "31": {
+        "band": "inner",
+        "columnOffset": 28,
+        "location": "Fenceline Avg",
+        "statistic": "Mean"
+      },
+      "32": {
+        "band": "outer",
+        "columnOffset": 28,
+        "location": "Outer-boundary Avg",
+        "statistic": "Mean"
+      },
+      "33": {
+        "band": "community",
+        "columnOffset": 28,
+        "location": "Community Avg",
+        "statistic": "Mean"
+      },
+      "34": {
+        "band": "all",
+        "columnOffset": 24,
+        "location": "Anywhere",
+        "statistic": "Min"
+      },
+      "35": {
+        "band": "inner",
+        "columnOffset": 24,
+        "location": "Fenceline Avg",
+        "statistic": "Min"
+      },
+      "36": {
+        "band": "outer",
+        "columnOffset": 24,
+        "location": "Outer-boundary Avg",
+        "statistic": "Min"
+      },
+      "37": {
+        "band": "community",
+        "columnOffset": 24,
+        "location": "Community Avg",
+        "statistic": "Min"
+      },
+      "38": {
+        "band": "all",
+        "columnOffset": 56,
+        "location": "Anywhere",
+        "statistic": "Max"
+      },
+      "39": {
+        "band": "inner",
+        "columnOffset": 56,
+        "location": "Fenceline",
+        "statistic": "Max"
+      },
+      "4": {
+        "band": "outer",
+        "columnOffset": 8,
+        "location": "Outer-boundary Avg",
+        "statistic": "Max"
+      },
+      "40": {
+        "band": "outer",
+        "columnOffset": 56,
+        "location": "Outer-boundary",
+        "statistic": "Max"
+      },
+      "41": {
+        "band": "community",
+        "columnOffset": 56,
+        "location": "Community",
+        "statistic": "Max"
+      },
+      "42": {
+        "band": "all",
+        "columnOffset": 52,
+        "location": "Anywhere",
+        "statistic": "Mean"
+      },
+      "43": {
+        "band": "inner",
+        "columnOffset": 52,
+        "location": "Fenceline Avg",
+        "statistic": "Mean"
+      },
+      "44": {
+        "band": "outer",
+        "columnOffset": 52,
+        "location": "Outer-boundary Avg",
+        "statistic": "Mean"
+      },
+      "45": {
+        "band": "community",
+        "columnOffset": 52,
+        "location": "Community Avg",
+        "statistic": "Mean"
+      },
+      "46": {
+        "band": "all",
+        "columnOffset": 48,
+        "location": "Anywhere",
+        "statistic": "Min"
+      },
+      "47": {
+        "band": "inner",
+        "columnOffset": 48,
+        "location": "Fenceline Avg",
+        "statistic": "Min"
+      },
+      "48": {
+        "band": "outer",
+        "columnOffset": 48,
+        "location": "Outer-boundary Avg",
+        "statistic": "Min"
+      },
+      "49": {
+        "band": "community",
+        "columnOffset": 48,
+        "location": "Community Avg",
+        "statistic": "Min"
+      },
+      "5": {
+        "band": "community",
+        "columnOffset": 8,
+        "location": "Community Avg",
+        "statistic": "Max"
+      },
+      "50": {
+        "band": "all",
+        "columnOffset": 44,
+        "location": "Anywhere",
+        "statistic": "Max"
+      },
+      "51": {
+        "band": "inner",
+        "columnOffset": 44,
+        "location": "Fenceline",
+        "statistic": "Max"
+      },
+      "52": {
+        "band": "outer",
+        "columnOffset": 44,
+        "location": "Outer-boundary",
+        "statistic": "Max"
+      },
+      "53": {
+        "band": "community",
+        "columnOffset": 44,
+        "location": "Community",
+        "statistic": "Max"
+      },
+      "54": {
+        "band": "all",
+        "columnOffset": 40,
+        "location": "Anywhere",
+        "statistic": "Mean"
+      },
+      "55": {
+        "band": "inner",
+        "columnOffset": 40,
+        "location": "Fenceline Avg",
+        "statistic": "Mean"
+      },
+      "56": {
+        "band": "outer",
+        "columnOffset": 40,
+        "location": "Outer-boundary Avg",
+        "statistic": "Mean"
+      },
+      "57": {
+        "band": "community",
+        "columnOffset": 40,
+        "location": "Community Avg",
+        "statistic": "Mean"
+      },
+      "58": {
+        "band": "all",
+        "columnOffset": 36,
+        "location": "Anywhere",
+        "statistic": "Min"
+      },
+      "59": {
+        "band": "inner",
+        "columnOffset": 36,
+        "location": "Fenceline Avg",
+        "statistic": "Min"
+      },
+      "6": {
+        "band": "all",
+        "columnOffset": 4,
+        "location": "Anywhere",
+        "statistic": "Mean"
+      },
+      "60": {
+        "band": "outer",
+        "columnOffset": 36,
+        "location": "Outer-boundary Avg",
+        "statistic": "Min"
+      },
+      "61": {
+        "band": "community",
+        "columnOffset": 36,
+        "location": "Community Avg",
+        "statistic": "Min"
+      },
+      "7": {
+        "band": "inner",
+        "columnOffset": 4,
+        "location": "Fenceline Avg",
+        "statistic": "Mean"
+      },
+      "8": {
+        "band": "outer",
+        "columnOffset": 4,
+        "location": "Outer-boundary Avg",
+        "statistic": "Mean"
+      },
+      "9": {
+        "band": "community",
+        "columnOffset": 4,
+        "location": "Community Avg",
+        "statistic": "Mean"
+      }
+    },
+    "doseCoefficients": {
+      "acute": {
+        "divisors": [
+          1.0
+        ],
+        "multipliers": [
+          24.0,
+          1.0,
+          0.001
+        ]
+      },
+      "chronic": {
+        "divisors": [
+          1.0
+        ],
+        "multipliers": [
+          1.0,
+          0.001
+        ]
+      },
+      "lifetime": {
+        "divisors": [
+          78.0
+        ],
+        "multipliers": [
+          33.0,
+          0.001
+        ]
+      }
+    },
+    "emissionRateConstant": 0.2778,
+    "fugitiveCaps": {
+      "Coarse": {
+        "annualAir": 150,
+        "dailyAir": 150
+      },
+      "Fine": {
+        "annualAir": 35,
+        "dailyAir": 35
+      },
+      "No particles (vapor only)": {
+        "annualAir": null,
+        "dailyAir": null
+      }
+    },
+    "fugitiveScaling": {
+      "CoarseRural": {
+        "all": {
+          "a": 17.470026500000003,
+          "b": -0.0382715
+        },
+        "community": {
+          "a": 9.122964,
+          "b": -0.020498000000000002
+        },
+        "inner": {
+          "a": 154.473501,
+          "b": -0.0529785
+        },
+        "outer": {
+          "a": 2.2388675,
+          "b": -0.007435499999999999
+        }
+      },
+      "CoarseUrban": {
+        "all": {
+          "a": 11.3378035,
+          "b": -0.0418035
+        },
+        "community": {
+          "a": 5.288399500000001,
+          "b": -0.0167425
+        },
+        "inner": {
+          "a": 109.95427099999999,
+          "b": -0.0611825
+        },
+        "outer": {
+          "a": 1.4528235,
+          "b": -0.0067195
+        }
+      },
+      "FineRural": {
+        "all": {
+          "a": 10.6000775,
+          "b": -0.027859500000000002
+        },
+        "community": {
+          "a": 6.772901999999999,
+          "b": -0.0158205
+        },
+        "inner": {
+          "a": 74.7272195,
+          "b": -0.044177
+        },
+        "outer": {
+          "a": 2.317148,
+          "b": -0.005967500000000001
+        }
+      },
+      "FineUrban": {
+        "all": {
+          "a": 4.957103,
+          "b": -0.0382285
+        },
+        "community": {
+          "a": 2.5796534999999996,
+          "b": -0.016687
+        },
+        "inner": {
+          "a": 43.966926,
+          "b": -0.0575075
+        },
+        "outer": {
+          "a": 0.7718005,
+          "b": -0.0063615
+        }
+      },
+      "No particles (vapor only)Rural": {
+        "all": {
+          "a": 20.580914,
+          "b": -0.028896
+        },
+        "community": {
+          "a": 13.206737,
+          "b": -0.015852
+        },
+        "inner": {
+          "a": 142.909657,
+          "b": -0.045066
+        },
+        "outer": {
+          "a": 4.641249,
+          "b": -0.005767
+        }
+      },
+      "No particles (vapor only)Urban": {
+        "all": {
+          "a": 9.473738,
+          "b": -0.037526
+        },
+        "community": {
+          "a": 4.947355,
+          "b": -0.01659
+        },
+        "inner": {
+          "a": 83.762675,
+          "b": -0.056751
+        },
+        "outer": {
+          "a": 1.485577,
+          "b": -0.006324
+        }
+      }
+    },
+    "ioRatios": {
+      "B57": 0.65,
+      "B58": 1
+    },
+    "outputRows": {
+      "10": {
+        "dryDep": 45,
+        "ioRatioCell": "B57",
+        "location": "Community Avg",
+        "outdoorAnnual": 21,
+        "outdoorDaily": 9,
+        "stat": "Mean",
+        "totalDep": 33,
+        "wetDep": 57
+      },
+      "5": {
+        "dryDep": 39,
+        "ioRatioCell": "B58",
+        "location": "Fenceline Avg",
+        "outdoorAnnual": 15,
+        "outdoorDaily": 3,
+        "stat": "High-End",
+        "totalDep": 27,
+        "wetDep": 51
+      },
+      "6": {
+        "dryDep": 40,
+        "ioRatioCell": "B58",
+        "location": "Outer-boundary Avg",
+        "outdoorAnnual": 16,
+        "outdoorDaily": 4,
+        "stat": "High-End",
+        "totalDep": 28,
+        "wetDep": 52
+      },
+      "7": {
+        "dryDep": 41,
+        "ioRatioCell": "B58",
+        "location": "Community Avg",
+        "outdoorAnnual": 17,
+        "outdoorDaily": 5,
+        "stat": "High-End",
+        "totalDep": 29,
+        "wetDep": 53
+      },
+      "8": {
+        "dryDep": 43,
+        "ioRatioCell": "B57",
+        "location": "Fenceline Avg",
+        "outdoorAnnual": 19,
+        "outdoorDaily": 7,
+        "stat": "Mean",
+        "totalDep": 31,
+        "wetDep": 55
+      },
+      "9": {
+        "dryDep": 44,
+        "ioRatioCell": "B57",
+        "location": "Outer-boundary Avg",
+        "outdoorAnnual": 20,
+        "outdoorDaily": 8,
+        "stat": "Mean",
+        "totalDep": 32,
+        "wetDep": 56
+      }
+    },
+    "receptors": [
+      {
+        "bw": 7.833333333333333,
+        "inhAcute": 0.456,
+        "inhChronic": 5.4,
+        "name": "Infant (<1 year)",
+        "pctIndoor": 0.9462962962962963,
+        "pctOutdoor": 0.0537037037037037
+      },
+      {
+        "bw": 11.4,
+        "inhAcute": 0.72,
+        "inhChronic": 8,
+        "name": "Young Toddler (1-<2 years)",
+        "pctIndoor": 0.9740820734341252,
+        "pctOutdoor": 0.02591792656587477
+      },
+      {
+        "bw": 13.8,
+        "inhAcute": 0.72,
+        "inhChronic": 8.9,
+        "name": "Toddler (2-<3 years)",
+        "pctIndoor": 0.9454022988505747,
+        "pctOutdoor": 0.054597701149425304
+      },
+      {
+        "bw": 18.6,
+        "inhAcute": 0.66,
+        "inhChronic": 10.1,
+        "name": "Small Child (3-<6 years)",
+        "pctIndoor": 0.9227436823104693,
+        "pctOutdoor": 0.07725631768953067
+      },
+      {
+        "bw": 31.8,
+        "inhAcute": 0.66,
+        "inhChronic": 12,
+        "name": "Child (6-<11 years)",
+        "pctIndoor": 0.9040697674418605,
+        "pctOutdoor": 0.09593023255813948
+      },
+      {
+        "bw": 56.8,
+        "inhAcute": 0.78,
+        "inhChronic": 15.2,
+        "name": "Teen (11-<16 years)",
+        "pctIndoor": 0.9264705882352942,
+        "pctOutdoor": 0.07352941176470584
+      },
+      {
+        "bw": 79.3225806451613,
+        "inhAcute": 0.7393548387096774,
+        "inhChronic": 15.287096774193548,
+        "name": "Adult (16-<78 years)",
+        "pctIndoor": 0.8114600923111562,
+        "pctOutdoor": 0.18853990768884377
+      },
+      {
+        "bw": 69.86965811965811,
+        "inhAcute": 0.7296923076923078,
+        "inhChronic": 14.569230769230767,
+        "name": "Lifetime (0-<78 Years)",
+        "pctIndoor": 0.8338984783170704,
+        "pctOutdoor": 0.16610152168292958
+      }
+    ],
+    "scalingReferenceArea": 100.0
+  },
+  "sheets": {
+    "All Sources Output": {
+      "formulaCells": 0,
+      "ported": false,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "Chemical": {
+      "formulaCells": 0,
+      "ported": false,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "valueCells": 12,
+      "valuesSha256": "ce69f917f726ebbe5d002288c107b52e414797b431654259bdca255585ee3a87"
+    },
+    "Fugitive Calculations": {
+      "formulaCells": 0,
+      "ported": false,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "Fugitive Calculations Prelim": {
+      "formulaCells": 6100,
+      "ported": true,
+      "sha256": "3fc87af432ce704de396d17105c7211307cba648a2ec6984104cf8833e79f640"
+    },
+    "Fugitive Output": {
+      "formulaCells": 0,
+      "ported": false,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "Fugitive Output Prelim": {
+      "formulaCells": 132,
+      "ported": true,
+      "sha256": "786fdf2f498bdb9ce953700869456ab7687d3dba1d8ccd9529ede0b00176fb02"
+    },
+    "Input Import": {
+      "formulaCells": 0,
+      "ported": false,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "Introduction": {
+      "formulaCells": 0,
+      "ported": false,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "Point Aggregate": {
+      "formulaCells": 0,
+      "ported": false,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "Point Aggregate Pivot": {
+      "formulaCells": 0,
+      "ported": false,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "Point Calculations": {
+      "formulaCells": 0,
+      "ported": false,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "Point Calculations Prelim": {
+      "formulaCells": 6100,
+      "ported": false,
+      "sha256": "2254a1d3506af5cb84c57e65440bb78fd472b4bc870232faf0f34296dd8da52d"
+    },
+    "Point Output": {
+      "formulaCells": 0,
+      "ported": false,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "Point Output Prelim": {
+      "formulaCells": 132,
+      "ported": false,
+      "sha256": "f9eb8c4d1e067a31c225c1edbefec1f3c03edae5d9f7d406af9cf91afccb6eec"
+    },
+    "Point+Fugitive Lookup": {
+      "formulaCells": 0,
+      "ported": false,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "Soil Output": {
+      "formulaCells": 0,
+      "ported": false,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "Soil Output Prelim": {
+      "formulaCells": 108,
+      "ported": false,
+      "sha256": "47e15b461e9cbbc55ef327ef45ae19a8914baa5653607b514082b44648182e57"
+    },
+    "SoilCalc": {
+      "formulaCells": 23733,
+      "ported": false,
+      "sha256": "9b379248b8d3bef9913552569634e9ed363c728ec978d090a9589394b9bb07ad"
+    },
+    "SoilCalcPrelim": {
+      "formulaCells": 0,
+      "ported": false,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "Source Inputs Area Soil": {
+      "formulaCells": 3,
+      "ported": false,
+      "sha256": "4aec923dc3ff1cfffd5c5117c89755d7cfcaf277cdf15a727bc7f45f69d1d1a0"
+    },
+    "Source Inputs Area Water": {
+      "formulaCells": 3,
+      "ported": false,
+      "sha256": "4aec923dc3ff1cfffd5c5117c89755d7cfcaf277cdf15a727bc7f45f69d1d1a0"
+    },
+    "Source Inputs Fugitive": {
+      "formulaCells": 5,
+      "ported": false,
+      "sha256": "abe0b03d92051f1323a1ae53ddcabe82c640dbd3ea3c2317be6935256b5eb4e2"
+    },
+    "Source Inputs Point": {
+      "formulaCells": 9,
+      "ported": false,
+      "sha256": "a92942b5e72adcf40e70a2837a6142b929b48012e608bd80af737add99f203b3"
+    },
+    "Water Output": {
+      "formulaCells": 0,
+      "ported": false,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "Water Output Prelim": {
+      "formulaCells": 108,
+      "ported": false,
+      "sha256": "1b7de23567fe163668dc9209d4fafd9651ea82e4630a47a82e650aab8bdd8575"
+    },
+    "WaterCalc": {
+      "formulaCells": 21905,
+      "ported": false,
+      "sha256": "911510256ad240fc1503992db675cab0186c4617f26b12ee1f214fb0248982d2"
+    },
+    "WaterCalcPrelim": {
+      "formulaCells": 0,
+      "ported": false,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "lookups": {
+      "formulaCells": 11,
+      "ported": true,
+      "sha256": "fab6de78ba7da6e2ba1858adf66475dfcfa54ad964ac8b5373ad3b42131b2877",
+      "valueCells": 315,
+      "valuesSha256": "2de73733a607df7f63bb34a6e3d61284a7a09386baf352332ad465c990232688"
+    }
+  },
+  "workbook": {
+    "bytes": 4135699,
+    "name": "iioac_1.0.xlsm",
+    "sha256": "d8af475ba51aecd4398e8ef8d3657587e5f090f14f4ca9c6497be1968402b008"
+  }
+}

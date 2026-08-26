@@ -3,6 +3,10 @@
 cd "$(dirname "$0")" || exit 1
 status=0
 
+echo "=== model fingerprint (28 sheets) ================================="
+python3 fingerprint.py || status=1
+
+echo
 echo "=== unit tests (JS) ==============================================="
 node test_units.mjs || status=1
 
