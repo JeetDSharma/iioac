@@ -132,3 +132,12 @@ footer a:hover { text-decoration: underline; }
 footer .colophon { margin: 8px 0 0; font-size: 12px; color: var(--muted); max-width: 78ch; }
 footer .reachout { margin: 6px 0 0; font-size: 13px; color: var(--muted); }
 footer .cite { margin: 6px 0 0; font-size: 13px; color: var(--muted); max-width: 78ch; }
+
+/* Narrow screens. The scenario row is four inputs wide and will not fit a phone,
+   so it stays a horizontal scroller; these rules just buy back the width that
+   page and card padding were spending, so more of it is visible at once. */
+@media (max-width: 480px) {
+  .wrap { padding: 0 12px; }
+  .card { padding: 16px 12px; }
+  .scenarios td:first-child { min-width: 130px; }
+}
